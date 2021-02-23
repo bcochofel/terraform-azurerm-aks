@@ -1,0 +1,30 @@
+---
+repos:
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v3.1.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: no-commit-to-branch
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.45.0
+    hooks:
+      - id: terraform_docs
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.11
+    hooks:
+      - id: terraform-fmt
+      - id: terraform-validate
+        files: ^examples/
+      - id: goimports
+      - id: gofmt
+      - id: golint
+      - id: tflint
+        files: ^examples/.*\.tf
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: master
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
