@@ -8,10 +8,6 @@ repos:
       - id: detect-private-key
       - id: check-merge-conflict
       - id: no-commit-to-branch
-  - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.45.0
-    hooks:
-      - id: terraform_docs
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.11
     hooks:
@@ -23,8 +19,14 @@ repos:
       - id: golint
       - id: tflint
         files: ^examples/.*\.tf
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.45.0
+    hooks:
+      - id: terraform_docs
+      - id: terraform_tfsec
+      - id: checkov
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: master
+    rev: v2.15.2
     hooks:
       - id: commitizen
         stages: [commit-msg]
