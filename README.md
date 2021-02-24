@@ -8,9 +8,11 @@ Some examples where taken from [this](https://github.com/terraform-providers/ter
 ## Usage
 
 ```hcl:examples/basic/main.tf
+
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 | Name | Version |
@@ -48,6 +50,7 @@ Some examples where taken from [this](https://github.com/terraform-providers/ter
 
 No output.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Run tests
 
 ```bash
