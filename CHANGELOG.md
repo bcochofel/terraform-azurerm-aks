@@ -7,6 +7,7 @@
 ## [0.3.0] - 2021-02-25
 ### Feat
 - basic cluster
+- basic cluster
 
 
 <a name="0.2.0"></a>

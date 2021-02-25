@@ -37,6 +37,7 @@ module "aks" {
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+
 ## Requirements
 
 | Name | Version |
@@ -96,6 +97,7 @@ module "aks" {
 
 No output.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 
 ## Run tests
 
