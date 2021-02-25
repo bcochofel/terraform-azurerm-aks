@@ -355,6 +355,43 @@ EOT
   default     = null
 }
 
+variable "api_server_authorized_ip_ranges" {
+  description = "The IP ranges to whitelist for incoming traffic to the masters."
+  type        = list(string)
+  default     = null
+}
+
+variable "disk_encryption_set_id" {
+  description = <<EOT
+(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes.
+Please see [the documentation](https://docs.microsoft.com/en-us/azure/aks/azure-disk-customer-managed-keys)
+and [disk_encryption_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set)
+for more information.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "private_cluster_enabled" {
+  description = <<EOT
+Should this Kubernetes Cluster have its API server only exposed on internal
+IP addresses? This provides a Private IP Address for the Kubernetes API on the
+Virtual Network where the Kubernetes Cluster is located.
+Changing this forces a new resource to be created.
+EOT
+  type        = bool
+  default     = false
+}
+
+variable "enable_role_based_access_control" {
+  description = <<EOT
+Is Role Based Access Control Enabled?
+Changing this forces a new resource to be created.
+EOT
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "A mapping of tags which should be assigned to Resources."
   type        = map(string)

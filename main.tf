@@ -81,11 +81,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
 
     azure_policy {
-      enabled = var.enabled_azure_policy
+      enabled = var.enable_azure_policy
     }
 
     http_application_routing {
-      enabled = var.enabled_http_application_routing
+      enabled = var.enable_http_application_routing
     }
 
     kube_dashboard {
@@ -98,8 +98,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
+  role_based_access_control {
+    enabled = var.enable_role_based_access_control
+  }
+
   automatic_channel_upgrade = var.automatic_channel_upgrade
   kubernetes_version        = var.kubernetes_version
+
+  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
+
+  disk_encryption_set_id = var.disk_encryption_set_id
+
+  private_cluster_enabled = var.private_cluster_enabled
 
   tags = var.tags
 }
