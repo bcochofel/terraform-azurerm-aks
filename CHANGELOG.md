@@ -10,6 +10,9 @@
 - basic cluster
 - basic cluster
 
+### Fix
+- documentation
+
 
 <a name="0.2.0"></a>
 ## [0.2.0] - 2021-02-25
