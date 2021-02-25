@@ -237,6 +237,115 @@ variable "user_assigned_identity_id" {
   default     = ""
 }
 
+variable "admin_username" {
+  description = <<EOT
+The Admin Username for the Cluster.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = "azureuser"
+}
+
+# start - addon_profile
+
+# aci_connector_linux
+
+variable "enable_aci_connector_linux" {
+  description = "Is the virtual node addon enabled?"
+  type        = bool
+  default     = false
+}
+
+variable "aci_connector_linux_subnet_name" {
+  description = <<EOT
+The subnet name for the virtual nodes to run.
+AKS will add a delegation to the subnet named here.
+To prevent further runs from failing you should make sure that the subnet
+you create for virtual nodes has a delegation, like so.
+
+```hcl
+resource "azurerm_subnet" "virtual" {
+
+  #...
+
+  delegation {
+    name = "aciDelegation"
+    service_delegation {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+}
+```
+EOT
+  type        = string
+  default     = null
+}
+
+# azure_policy
+
+variable "enable_azure_policy" {
+  description = "Is the Azure Policy for Kubernetes Add On enabled?"
+  type        = bool
+  default     = false
+}
+
+# http_application_routing
+
+variable "enable_http_application_routing" {
+  description = "Is HTTP Application Routing Enabled?"
+  type        = bool
+  default     = false
+}
+
+# kube_dashboard
+
+variable "enabled_kube_dashboard" {
+  description = "Is the Kubernetes Dashboard enabled?"
+  type        = bool
+  default     = false
+}
+
+# oms_agent
+
+variable "enable_log_analytics_workspace" {
+  description = <<EOT
+Enable the creation of azurerm_log_analytics_workspace and
+azurerm_log_analytics_solution or not
+EOT
+  type        = bool
+  default     = true
+}
+
+variable "log_analytics_workspace_sku" {
+  description = <<EOT
+The SKU (pricing level) of the Log Analytics workspace.
+For new subscriptions the SKU should be set to PerGB2018
+EOT
+  type        = string
+  default     = "PerGB2018"
+}
+
+variable "log_retention_in_days" {
+  description = "The retention period for the logs in days"
+  type        = number
+  default     = 30
+}
+
+# end - addon_profile
+
+variable "automatic_channel_upgrade" {
+  description = <<EOT
+The upgrade channel for this Kubernetes Cluster.
+Possible values are none, patch, rapid, and stable.
+Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)
+to the latest GA version of Kubernetes automatically.
+Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview).
+EOT
+  type        = string
+  default     = "none"
+}
+
 variable "kubernetes_version" {
   description = <<EOT
 Version of Kubernetes specified when creating the AKS managed cluster.
@@ -244,4 +353,10 @@ If not specified, the latest recommended version will be used at provisioning ti
 EOT
   type        = string
   default     = null
+}
+
+variable "tags" {
+  description = "A mapping of tags which should be assigned to Resources."
+  type        = map(string)
+  default     = {}
 }

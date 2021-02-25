@@ -65,5 +65,70 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
-  kubernetes_version = var.kubernetes_version
+  linux_profile {
+    admin_username = var.admin_username
+
+    ssh_key {
+      # remove any new lines using the replace interpolation function
+      key_data = replace(var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key, "\n", "")
+    }
+  }
+
+  addon_profile {
+    aci_connector_linux {
+      enabled     = var.enable_aci_connector_linux
+      subnet_name = var.enable_aci_connector_linux ? var.aci_connector_linux_subnet_name : null
+    }
+
+    azure_policy {
+      enabled = var.enabled_azure_policy
+    }
+
+    http_application_routing {
+      enabled = var.enabled_http_application_routing
+    }
+
+    kube_dashboard {
+      eenabled = var.enabled_kube_dashboard
+    }
+
+    oms_agent {
+      enabled                    = var.enable_log_analytics_workspace
+      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
+    }
+  }
+
+  automatic_channel_upgrade = var.automatic_channel_upgrade
+  kubernetes_version        = var.kubernetes_version
+
+  tags = var.tags
+}
+
+resource "azurerm_log_analytics_workspace" "main" {
+  count = var.enable_log_analytics_workspace ? 1 : 0
+
+  name                = "${var.dns_prefix}-workspace"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  sku                 = var.log_analytics_workspace_sku
+  retention_in_days   = var.log_retention_in_days
+
+  tags = var.tags
+}
+
+resource "azurerm_log_analytics_solution" "main" {
+  count = var.enable_log_analytics_workspace ? 1 : 0
+
+  solution_name         = "ContainerInsights"
+  location              = data.azurerm_resource_group.rg.location
+  resource_group_name   = data.azurerm_resource_group.rg.name
+  workspace_resource_id = azurerm_log_analytics_workspace.main[0].id
+  workspace_name        = azurerm_log_analytics_workspace.main[0].name
+
+  plan {
+    publisher = "Microsoft"
+    product   = "OMSGallery/ContainerInsights"
+  }
+
+  tags = var.tags
 }
