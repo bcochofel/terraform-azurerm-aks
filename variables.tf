@@ -392,6 +392,39 @@ EOT
   default     = true
 }
 
+variable "rbac_aad_managed" {
+  description = <<EOT
+Is the Azure Active Directory integration Managed, meaning that Azure will
+create/manage the Service Principal used for integration.
+EOT
+  type        = bool
+  default     = false
+}
+
+variable "rbac_aad_admin_group_object_ids" {
+  description = "Object ID of groups with admin access."
+  type        = list(string)
+  default     = null
+}
+
+variable "rbac_aad_client_app_id" {
+  description = "The Client ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_id" {
+  description = "The Server ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_secret" {
+  description = "The Server Secret of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "A mapping of tags which should be assigned to Resources."
   type        = map(string)
