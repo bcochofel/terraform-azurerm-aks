@@ -6,6 +6,7 @@
 <a name="0.3.0"></a>
 ## [0.3.0] - 2021-02-25
 ### Feat
+- add more options
 - aks add ons
 - basic cluster
 - basic cluster
