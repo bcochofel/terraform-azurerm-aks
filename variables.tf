@@ -34,6 +34,11 @@ DNS prefix specified when creating the managed cluster.
 Changing this forces a new resource to be created.
 EOT
   type        = string
+
+  validation {
+    condition     = length(var.dns_prefix) >= 3 && length(var.dns_prefix) <= 45 && can(regex("^[a-zA-Z][a-zA-Z0-9-]+[a-zA-Z0-9]$", var.dns_prefix))
+    error_message = "The dns_prefix must contain between 3 and 45 characters, and can contain only letters, numbers, and hyphens. It must start with a letter and must end with a letter or a number."
+  }
 }
 
 # start - default_node_pool block variables
@@ -213,6 +218,24 @@ EOT
 }
 
 # end - default_node_pool block variables
+
+variable "client_id" {
+  description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
+  type        = string
+  default     = ""
+}
+
+variable "client_secret" {
+  description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
+  type        = string
+  default     = ""
+}
+
+variable "user_assigned_identity_id" {
+  description = "The ID of a user assigned identity."
+  type        = string
+  default     = ""
+}
 
 variable "kubernetes_version" {
   description = <<EOT
