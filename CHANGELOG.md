@@ -4,8 +4,9 @@
 
 
 <a name="0.3.0"></a>
-## [0.3.0] - 2021-02-25
+## [0.3.0] - 2021-02-26
 ### Feat
+- network profile
 - active directory integration
 - add more options
 - aks add ons
