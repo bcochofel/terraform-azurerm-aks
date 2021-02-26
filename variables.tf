@@ -219,6 +219,8 @@ EOT
 
 # end - default_node_pool block variables
 
+# start - identity/service_principal
+
 variable "client_id" {
   description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
   type        = string
@@ -245,6 +247,8 @@ EOT
   type        = string
   default     = "azureuser"
 }
+
+# end - identity/service_principal
 
 # start - addon_profile
 
@@ -334,54 +338,7 @@ variable "log_retention_in_days" {
 
 # end - addon_profile
 
-variable "automatic_channel_upgrade" {
-  description = <<EOT
-The upgrade channel for this Kubernetes Cluster.
-Possible values are none, patch, rapid, and stable.
-Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)
-to the latest GA version of Kubernetes automatically.
-Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview).
-EOT
-  type        = string
-  default     = "none"
-}
-
-variable "kubernetes_version" {
-  description = <<EOT
-Version of Kubernetes specified when creating the AKS managed cluster.
-If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade).
-EOT
-  type        = string
-  default     = null
-}
-
-variable "api_server_authorized_ip_ranges" {
-  description = "The IP ranges to whitelist for incoming traffic to the masters."
-  type        = list(string)
-  default     = null
-}
-
-variable "disk_encryption_set_id" {
-  description = <<EOT
-(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes.
-Please see [the documentation](https://docs.microsoft.com/en-us/azure/aks/azure-disk-customer-managed-keys)
-and [disk_encryption_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set)
-for more information.
-EOT
-  type        = string
-  default     = null
-}
-
-variable "private_cluster_enabled" {
-  description = <<EOT
-Should this Kubernetes Cluster have its API server only exposed on internal
-IP addresses? This provides a Private IP Address for the Kubernetes API on the
-Virtual Network where the Kubernetes Cluster is located.
-Changing this forces a new resource to be created.
-EOT
-  type        = bool
-  default     = false
-}
+# start - role based access control
 
 variable "enable_role_based_access_control" {
   description = <<EOT
@@ -423,6 +380,145 @@ variable "rbac_aad_server_app_secret" {
   description = "The Server Secret of an Azure Active Directory Application."
   type        = string
   default     = null
+}
+
+# end - role based access control
+
+# start - network profile
+
+variable "network_plugin" {
+  description = <<EOT
+Network plugin to use for networking. Currently supported values are azure and kubenet.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = "kubenet"
+}
+
+variable "network_policy" {
+  description = <<EOT
+Sets up network policy to be used with Azure CNI.
+Currently supported values are calico and azure.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "dns_service_ip" {
+  description = <<EOT
+IP address within the Kubernetes service address range that will be used by
+cluster service discovery (kube-dns).
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "docker_bridge_cidr" {
+  description = <<EOT
+IP address (in CIDR notation) used as the Docker bridge IP address on nodes.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "outbound_type" {
+  description = <<EOT
+The outbound (egress) routing method which should be used for this Kubernetes
+Cluster. Possible values are loadBalancer and userDefinedRouting.
+EOT
+  type        = string
+  default     = "loadBalancer"
+}
+
+variable "pod_cidr" {
+  description = <<EOT
+The CIDR to use for pod IP addresses. This field can only be set when
+network_plugin is set to kubenet.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "service_cidr" {
+  description = <<EOT
+The Network Range used by the Kubernetes service.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "load_balancer_sku" {
+  description = <<EOT
+Specifies the SKU of the Load Balancer used for this Kubernetes Cluster.
+Possible values are Basic and Standard.
+EOT
+  type        = string
+  default     = "Standard"
+}
+
+# end - network profile
+
+variable "automatic_channel_upgrade" {
+  description = <<EOT
+The upgrade channel for this Kubernetes Cluster.
+Possible values are none, patch, rapid, and stable.
+Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)
+to the latest GA version of Kubernetes automatically.
+Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview).
+EOT
+  type        = string
+  default     = "none"
+}
+
+variable "api_server_authorized_ip_ranges" {
+  description = "The IP ranges to whitelist for incoming traffic to the masters."
+  type        = list(string)
+  default     = null
+}
+
+variable "disk_encryption_set_id" {
+  description = <<EOT
+(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes.
+Please see [the documentation](https://docs.microsoft.com/en-us/azure/aks/azure-disk-customer-managed-keys)
+and [disk_encryption_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set)
+for more information.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "kubernetes_version" {
+  description = <<EOT
+Version of Kubernetes specified when creating the AKS managed cluster.
+If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade).
+EOT
+  type        = string
+  default     = null
+}
+
+variable "private_cluster_enabled" {
+  description = <<EOT
+Should this Kubernetes Cluster have its API server only exposed on internal
+IP addresses? This provides a Private IP Address for the Kubernetes API on the
+Virtual Network where the Kubernetes Cluster is located.
+Changing this forces a new resource to be created.
+EOT
+  type        = bool
+  default     = false
+}
+
+variable "sku_tier" {
+  description = <<EOT
+The SKU Tier that should be used for this Kubernetes Cluster.
+Possible values are Free and Paid (which includes the Uptime SLA).
+EOT
+  type        = string
+  default     = "Free"
 }
 
 variable "tags" {
