@@ -20,7 +20,7 @@ resource "azurerm_user_assigned_identity" "aks_identity" {
 module "aks" {
   source = "../.."
 
-  name                = "aksbasicexample"
+  name                = "aksuserassignedexample"
   resource_group_name = module.rg.name
   dns_prefix          = "demolab"
 

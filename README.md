@@ -64,17 +64,19 @@ module "aks" {
 | [azurerm_log_analytics_solution](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_solution) |
 | [azurerm_log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) |
 | [azurerm_resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) |
+| [azurerm_role_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | aci\_connector\_linux\_subnet\_name | The subnet name for the virtual nodes to run.<br>AKS will add a delegation to the subnet named here.<br>To prevent further runs from failing you should make sure that the subnet<br>you create for virtual nodes has a delegation, like so.<pre>hcl<br>resource "azurerm_subnet" "virtual" {<br><br>  #...<br><br>  delegation {<br>    name = "aciDelegation"<br>    service_delegation {<br>      name    = "Microsoft.ContainerInstance/containerGroups"<br>      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]<br>    }<br>  }<br>}</pre> | `string` | `null` | no |
+| acr\_id | Attach ACR ID to allow ACR Pull from the SP/Managed Indentity. | `string` | `""` | no |
 | admin\_username | The Admin Username for the Cluster.<br>Changing this forces a new resource to be created. | `string` | `"azureuser"` | no |
 | agent\_tags | A mapping of tags to assign to the Node Pool. | `map(string)` | `{}` | no |
 | agent\_type | The type of Node Pool which should be created.<br>Possible values are AvailabilitySet and VirtualMachineScaleSets. | `string` | `"VirtualMachineScaleSets"` | no |
 | api\_server\_authorized\_ip\_ranges | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
-| automatic\_channel\_upgrade | The upgrade channel for this Kubernetes Cluster.<br>Possible values are none, patch, rapid, and stable.<br>Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)<br>to the latest GA version of Kubernetes automatically.<br>Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview). | `string` | `"none"` | no |
+| automatic\_channel\_upgrade | The upgrade channel for this Kubernetes Cluster.<br>Possible values are none, patch, rapid, and stable.<br>Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)<br>to the latest GA version of Kubernetes automatically.<br>Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview). | `string` | `null` | no |
 | availability\_zones | A list of Availability Zones across which the Node Pool should be spread.<br>Changing this forces a new resource to be created.<br>This requires that the type is set to VirtualMachineScaleSets and that<br>load\_balancer\_sku is set to Standard. | `list(string)` | `null` | no |
 | client\_id | (Optional) The Client ID (appId) for the Service Principal used for the AKS deployment | `string` | `""` | no |
 | client\_secret | (Optional) The Client Secret (password) for the Service Principal used for the AKS deployment | `string` | `""` | no |
@@ -85,10 +87,11 @@ module "aks" {
 | docker\_bridge\_cidr | IP address (in CIDR notation) used as the Docker bridge IP address on nodes.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
 | enable\_aci\_connector\_linux | Is the virtual node addon enabled? | `bool` | `false` | no |
 | enable\_auto\_scaling | Should the Kubernetes Auto Scaler be enabled for this Node Pool?<br>This requires that the type is set to VirtualMachineScaleSets. | `bool` | `false` | no |
+| enable\_azure\_active\_directory | Enable Azure Active Directory Integration? | `bool` | `false` | no |
 | enable\_azure\_policy | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `false` | no |
 | enable\_host\_encryption | Should the nodes in the Default Node Pool have host encryption enabled? | `bool` | `false` | no |
 | enable\_http\_application\_routing | Is HTTP Application Routing Enabled? | `bool` | `false` | no |
-| enable\_log\_analytics\_workspace | Enable the creation of azurerm\_log\_analytics\_workspace and<br>azurerm\_log\_analytics\_solution or not | `bool` | `true` | no |
+| enable\_log\_analytics\_workspace | Enable the creation of azurerm\_log\_analytics\_workspace and<br>azurerm\_log\_analytics\_solution or not | `bool` | `false` | no |
 | enable\_node\_public\_ip | Should nodes in this Node Pool have a Public IP Address? | `bool` | `false` | no |
 | enable\_role\_based\_access\_control | Is Role Based Access Control Enabled?<br>Changing this forces a new resource to be created. | `bool` | `true` | no |
 | enabled\_kube\_dashboard | Is the Kubernetes Dashboard enabled? | `bool` | `false` | no |
@@ -103,7 +106,7 @@ module "aks" {
 | name | The name of the Managed Kubernetes Cluster to create.<br>Changing this forces a new resource to be created. | `string` | n/a | yes |
 | network\_plugin | Network plugin to use for networking. Currently supported values are azure and kubenet.<br>Changing this forces a new resource to be created. | `string` | `"kubenet"` | no |
 | network\_policy | Sets up network policy to be used with Azure CNI.<br>Currently supported values are calico and azure.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
-| node\_count | The initial number of nodes which should exist in this Node Pool. If specified<br>this must be between 1 and 1000 and between min\_count and max\_count. | `number` | `null` | no |
+| node\_count | The initial number of nodes which should exist in this Node Pool. If specified<br>this must be between 1 and 1000 and between min\_count and max\_count. | `number` | `1` | no |
 | node\_labels | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool.<br>Changing this forces a new resource to be created. | `map(string)` | `{}` | no |
 | node\_pools | Allows to create multiple Node Pools.<br><br>node\_pools can have more than one pool. The name attribute is used<br>to create key/value map, but all the other elements are opcional.<pre>hcl<br>node_pools = [<br>  {<br>    name = "user1"<br>  },<br>  {<br>    name = "spot1"<br>  }<br>]</pre>Valid fields are:<br><br>* vm\_size<br>* availability\_zones<br>* enable\_auto\_scaling<br>* enable\_host\_encryption<br>* enable\_node\_public\_ip<br>* eviction\_policy<br>* max\_pods<br>* mode<br>* node\_labels<br>* node\_taints<br>* orchestrator\_version<br>* os\_disk\_size\_gb<br>* os\_disk\_type<br>* os\_type<br>* priority<br>* spto\_max\_price<br>* tags<br>* max\_count<br>* min\_count<br>* node\_count<br>* max\_surge | `any` | `[]` | no |
 | only\_critical\_addons\_enabled | Enabling this option will taint default node pool with<br>CriticalAddonsOnly=true:NoSchedule taint.<br>Changing this forces a new resource to be created. | `bool` | `false` | no |
@@ -129,7 +132,19 @@ module "aks" {
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| fqdn | The FQDN of the Azure Kubernetes Managed Cluster. |
+| id | The Kubernetes Managed Cluster ID. |
+| identity | A identity block |
+| kube\_admin\_config | A kube\_admin\_config block. This is only available when Role Based Access Control with Azure Active Directory is enabled. |
+| kube\_admin\_config\_raw | Raw Kubernetes config for the admin account to be used by kubectl and other<br>compatible tools. This is only available when Role Based Access Control with<br>Azure Active Directory is enabled. |
+| kube\_config | A kube\_config block. |
+| kube\_config\_raw | Raw Kubernetes config to be used by kubectl and other compatible tools |
+| kubelet\_identity | A kubelet\_identity block |
+| name | The Kubernetes Managed Cluster name. |
+| node\_resource\_group | The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. |
+| private\_fqdn | The FQDN for the Kubernetes Cluster when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
