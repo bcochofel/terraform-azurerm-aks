@@ -136,6 +136,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
   disk_encryption_set_id          = var.disk_encryption_set_id
   private_cluster_enabled         = var.private_cluster_enabled
+  node_resource_group             = var.node_resource_group
   sku_tier                        = var.sku_tier
 
   tags = var.tags
