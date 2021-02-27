@@ -102,7 +102,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     enabled = var.enable_role_based_access_control
 
     dynamic "azure_active_directory" {
-      for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
+      for_each = var.enable_role_based_access_control && var.enable_azure_active_directory && var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed                = true
         admin_group_object_ids = var.rbac_aad_admin_group_object_ids
@@ -110,7 +110,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
 
     dynamic "azure_active_directory" {
-      for_each = var.enable_role_based_access_control && !var.rbac_aad_managed ? ["rbac"] : []
+      for_each = var.enable_role_based_access_control && var.enable_azure_active_directory && !var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed           = false
         client_app_id     = var.rbac_aad_client_app_id
@@ -168,6 +168,17 @@ resource "azurerm_log_analytics_solution" "main" {
   }
 
   tags = var.tags
+}
+
+resource "azurerm_role_assignment" "attach_acr" {
+  count = var.acr_id == "" ? 0 : 1
+
+  scope                = var.acr_id
+  role_definition_name = "AcrPull"
+  principal_id = coalesce(var.client_id,
+    azurerm_kubernetes_cluster.aks.kubelet_identity[0].user_assigned_identity_id,
+    azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  )
 }
 
 module "node-pools" {

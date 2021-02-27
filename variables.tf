@@ -202,7 +202,7 @@ The initial number of nodes which should exist in this Node Pool. If specified
 this must be between 1 and 1000 and between min_count and max_count.
 EOT
   type        = number
-  default     = null
+  default     = 1
 }
 
 variable "max_surge" {
@@ -318,7 +318,7 @@ Enable the creation of azurerm_log_analytics_workspace and
 azurerm_log_analytics_solution or not
 EOT
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "log_analytics_workspace_sku" {
@@ -347,6 +347,12 @@ Changing this forces a new resource to be created.
 EOT
   type        = bool
   default     = true
+}
+
+variable "enable_azure_active_directory" {
+  description = "Enable Azure Active Directory Integration?"
+  type        = bool
+  default     = false
 }
 
 variable "rbac_aad_managed" {
@@ -472,7 +478,7 @@ to the latest GA version of Kubernetes automatically.
 Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview).
 EOT
   type        = string
-  default     = "none"
+  default     = null
 }
 
 variable "api_server_authorized_ip_ranges" {
@@ -525,6 +531,12 @@ variable "tags" {
   description = "A mapping of tags which should be assigned to Resources."
   type        = map(string)
   default     = {}
+}
+
+variable "acr_id" {
+  description = "Attach ACR ID to allow ACR Pull from the SP/Managed Indentity."
+  type        = string
+  default     = ""
 }
 
 variable "node_pools" {
