@@ -2,6 +2,9 @@
 
 This example deploys a AKS cluster with Azure Active Directory Integration..
 
+**NOTE:** To run this example the `service principal` needs to have permissions
+for Azure Active Directory. Please check references for more info.
+
 ## Usage
 
 ```hcl:examples/aad-integration/main.tf
@@ -14,7 +17,9 @@ No requirements.
 
 ## Providers
 
-No provider.
+| Name | Version |
+|------|---------|
+| azuread | n/a |
 
 ## Modules
 
@@ -25,7 +30,10 @@ No provider.
 
 ## Resources
 
-No resources.
+| Name |
+|------|
+| [azuread_group](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) |
+| [azuread_user](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/user) |
 
 ## Inputs
 
@@ -45,3 +53,8 @@ No input.
 | node\_resource\_group | n/a |
 | private\_fqdn | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+# References
+
+* [Terraform Azure AD Provider](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs)
+* [Configuring a Service Principal for managing Azure Active Directory](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_configuration)
