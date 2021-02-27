@@ -526,3 +526,49 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "node_pools" {
+  description = <<EOT
+Allows to create multiple Node Pools.
+
+node_pools can have more than one pool. The name attribute is used
+to create key/value map, but all the other elements are opcional.
+
+```hcl
+node_pools = [
+  {
+    name = "user1"
+  },
+  {
+    name = "spot1"
+  }
+]
+```
+
+Valid fields are:
+
+* vm_size
+* availability_zones
+* enable_auto_scaling
+* enable_host_encryption
+* enable_node_public_ip
+* eviction_policy
+* max_pods
+* mode
+* node_labels
+* node_taints
+* orchestrator_version
+* os_disk_size_gb
+* os_disk_type
+* os_type
+* priority
+* spto_max_price
+* tags
+* max_count
+* min_count
+* node_count
+* max_surge
+EOT
+  type        = any
+  default     = []
+}
