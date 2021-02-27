@@ -48,6 +48,7 @@ module "aks" {
 | Name | Version |
 |------|---------|
 | azurerm | >= 2.48.0 |
+| random | n/a |
 
 ## Modules
 
@@ -65,6 +66,7 @@ module "aks" {
 | [azurerm_log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) |
 | [azurerm_resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) |
 | [azurerm_role_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) |
+| [random_string](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) |
 
 ## Inputs
 
