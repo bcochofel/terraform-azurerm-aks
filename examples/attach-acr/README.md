@@ -2,6 +2,11 @@
 
 This example deploys a basic AKS cluster and attachs ACR for pulling images.
 
+## Usage
+
+```hcl:examples/attach-acr/main.tf
+```
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
