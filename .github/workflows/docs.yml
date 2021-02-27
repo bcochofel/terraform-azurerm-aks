@@ -22,31 +22,40 @@ jobs:
       - name: Use GitVersion
         uses: gittools/actions/gitversion/execute@v0.9.8
         id: gitversion
-      - uses: tokusumi/markdown-embed-code@main
+      - name: Main README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: attach-acr README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/attach-acr/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: monitoring-log-analytics README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/monitoring-log-analytics/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: network-policy-calico README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/network-policy-calico/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: basic README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/basic/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: aad-integration README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/aad-integration/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: best-practices README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/best-practices/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - spot-node-pool README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/spot-node-pool/README.md"
-      - uses: tokusumi/markdown-embed-code@main
+      - name: user-assigned-identity README.md
+        uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "examples/user-assigned-identity/README.md"
       - name: Changelog
