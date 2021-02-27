@@ -5,9 +5,50 @@ This example deploys a basic AKS cluster and attachs ACR for pulling images.
 ## Usage
 
 ```hcl:examples/attach-acr/main.tf
+provider "azurerm" {
+  features {}
+}
+
+module "rg" {
+  source  = "bcochofel/resource-group/azurerm"
+  version = "1.4.0"
+
+  name     = "rg-aks-attach-acr-example"
+  location = "North Europe"
+}
+
+module "acr" {
+  source  = "bcochofel/acr/azurerm"
+  version = "0.2.3"
+
+  name                = "acrattachacrexample"
+  resource_group_name = module.rg.name
+
+  sku           = "Basic"
+  admin_enabled = false
+
+  depends_on = [module.rg]
+}
+
+module "aks" {
+  source = "../.."
+
+  name                = "aksattachacrexample"
+  resource_group_name = module.rg.name
+  dns_prefix          = "demolab"
+
+  default_pool_name = "default"
+
+  enable_attach_acr = true
+  acr_id            = module.acr.id
+
+  depends_on = [module.rg]
+}
+
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
@@ -47,3 +88,4 @@ No input.
 | node\_resource\_group | n/a |
 | private\_fqdn | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+

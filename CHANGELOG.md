@@ -3,10 +3,70 @@
 ## [Unreleased]
 
 
+<a name="1.1.1"></a>
+## [1.1.1] - 2021-02-27
+### Docs
+- update example docs
+
+
+<a name="1.1.0"></a>
+## [1.1.0] - 2021-02-27
+### Feat
+- best practices example
+
+### Fix
+- network cidr
+
+### Pull Requests
+- Merge pull request [#11](https://github.com/bcochofel/terraform-azurerm-aks/issues/11) from bcochofel/feature/best-practices-example
+
+
+<a name="0.10.0"></a>
+## [0.10.0] - 2021-02-27
+### Docs
+- github workflow
+
+### Feat
+- aad integration example
+
+### Fix
+- gh docs workflow
+- gh docs workflow
+- gh workflow
+
+### Pull Requests
+- Merge pull request [#10](https://github.com/bcochofel/terraform-azurerm-aks/issues/10) from bcochofel/feature/aad-integration-example
+
+
+<a name="0.9.0"></a>
+## [0.9.0] - 2021-02-27
+### Feat
+- skeleton for other examples
+- spot node pool example
+
+### Pull Requests
+- Merge pull request [#9](https://github.com/bcochofel/terraform-azurerm-aks/issues/9) from bcochofel/feature/spot-node-pool-example
+
+
+<a name="0.8.0"></a>
+## [0.8.0] - 2021-02-27
+### Feat
+- network policy
+
+### Fix
+- github workflows
+
+### Pull Requests
+- Merge pull request [#8](https://github.com/bcochofel/terraform-azurerm-aks/issues/8) from bcochofel/feature/network-policy-example
+
+
 <a name="0.7.1"></a>
 ## [0.7.1] - 2021-02-27
 ### Fix
 - attach acr example
+
+### Pull Requests
+- Merge pull request [#7](https://github.com/bcochofel/terraform-azurerm-aks/issues/7) from bcochofel/attach_acr
 
 
 <a name="0.7.0"></a>
@@ -91,7 +151,12 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.7.1...HEAD
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...HEAD
+[1.1.1]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.0...1.1.1
+[1.1.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.10.0...1.1.0
+[0.10.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.9.0...0.10.0
+[0.9.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.8.0...0.9.0
+[0.8.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.7.1...0.8.0
 [0.7.1]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.5.0...0.6.0
