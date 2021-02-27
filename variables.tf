@@ -544,6 +544,12 @@ variable "tags" {
   default     = {}
 }
 
+variable "enable_attach_acr" {
+  description = "Enable ACR Pull attach. Needs acr_id to be defined."
+  type        = bool
+  default     = false
+}
+
 variable "acr_id" {
   description = "Attach ACR ID to allow ACR Pull from the SP/Managed Indentity."
   type        = string
