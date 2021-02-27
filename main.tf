@@ -7,6 +7,12 @@ module "ssh-key" {
   public_ssh_key = var.public_ssh_key == "" ? "" : var.public_ssh_key
 }
 
+resource "random_string" "main" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   # ignore node_count in case we are using AutoScaling
   lifecycle {
@@ -145,7 +151,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 resource "azurerm_log_analytics_workspace" "main" {
   count = var.enable_log_analytics_workspace ? 1 : 0
 
-  name                = "${var.dns_prefix}-workspace"
+  name                = "${var.dns_prefix}-workspace-${random_string.main.result}"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   sku                 = var.log_analytics_workspace_sku
