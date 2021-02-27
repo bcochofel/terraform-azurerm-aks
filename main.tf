@@ -176,8 +176,7 @@ resource "azurerm_role_assignment" "attach_acr" {
   scope                = var.acr_id
   role_definition_name = "AcrPull"
   principal_id = coalesce(var.client_id,
-    azurerm_kubernetes_cluster.aks.kubelet_identity[0].user_assigned_identity_id,
-    azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+    azurerm_kubernetes_cluster.aks.kubelet_identity[0].user_assigned_identity_id
   )
 }
 
