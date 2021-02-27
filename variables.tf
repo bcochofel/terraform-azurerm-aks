@@ -507,6 +507,17 @@ EOT
   default     = null
 }
 
+variable "node_resource_group" {
+  description = <<EOT
+The name of the Resource Group where the Kubernetes Nodes should exist.
+Changing this forces a new resource to be created.
+Azure requires that a new, non-existent Resource Group is used, as otherwise the
+provisioning of the Kubernetes Service will fail.
+EOT
+  type        = string
+  default     = null
+}
+
 variable "private_cluster_enabled" {
   description = <<EOT
 Should this Kubernetes Cluster have its API server only exposed on internal
