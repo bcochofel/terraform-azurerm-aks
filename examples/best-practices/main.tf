@@ -16,7 +16,7 @@ module "vnet" {
 
   resource_group_name = module.rg.name
   name                = "vnet-best-practices-example"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = ["10.5.0.0/16"]
 
   depends_on = [module.rg]
 }
@@ -28,7 +28,7 @@ module "subnet" {
   name                 = "snet-best-practices-example"
   resource_group_name  = module.rg.name
   virtual_network_name = module.vnet.name
-  address_prefixes     = ["10.0.0.0/24"]
+  address_prefixes     = ["10.5.0.0/21"]
 }
 
 
