@@ -1,10 +1,10 @@
-# AKS cluster with Spot Node Pool
+# AKS cluster with some best practices
 
-This example deploys a AKS cluster with Spot instances Node Pool.
+This example deploys a AKS cluster with some best practices.
 
 ## Usage
 
-```hcl:examples/spot-node-pool/main.tf
+```hcl:examples/best-practices/main.tf
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -45,3 +45,7 @@ No input.
 | node\_resource\_group | n/a |
 | private\_fqdn | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+## References
+
+* [Azure AKS best practices overview](https://docs.microsoft.com/en-us/azure/aks/best-practices)

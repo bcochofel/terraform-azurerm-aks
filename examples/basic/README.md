@@ -2,6 +2,11 @@
 
 This example deploys a basic AKS cluster with Managed Identity (system assigned).
 
+## Usage
+
+```hcl:examples/basic/main.tf
+```
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 

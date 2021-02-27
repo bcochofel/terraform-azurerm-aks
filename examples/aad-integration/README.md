@@ -1,10 +1,10 @@
-# AKS cluster with Spot Node Pool
+# AKS cluster with Azure Active Directory Integration
 
-This example deploys a AKS cluster with Spot instances Node Pool.
+This example deploys a AKS cluster with Azure Active Directory Integration..
 
 ## Usage
 
-```hcl:examples/spot-node-pool/main.tf
+```hcl:examples/aad-integration/main.tf
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
