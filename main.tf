@@ -89,7 +89,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
 
     kube_dashboard {
-      eenabled = var.enabled_kube_dashboard
+      enabled = var.enabled_kube_dashboard
     }
 
     oms_agent {
@@ -168,4 +168,13 @@ resource "azurerm_log_analytics_solution" "main" {
   }
 
   tags = var.tags
+}
+
+module "node-pools" {
+  source = "./modules/node-pools"
+
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  vnet_subnet_id        = var.vnet_subnet_id
+
+  node_pools = var.node_pools
 }
