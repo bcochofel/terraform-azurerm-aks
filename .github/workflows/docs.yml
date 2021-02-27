@@ -36,6 +36,12 @@ jobs:
           markdown: "examples/network-policy-calico/README.md"
       - uses: tokusumi/markdown-embed-code@main
         with:
+          markdown: "examples/basic/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/aad-integration/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
           markdown: "examples/spot-node-pool/README.md"
       - uses: tokusumi/markdown-embed-code@main
         with:

@@ -197,7 +197,7 @@ The initial number of nodes which should exist in this Node Pool. If specified
 this must be between 1 and 1000 and between min_count and max_count.
 EOT
   type        = number
-  default     = null
+  default     = 0
 }
 
 variable "max_surge" {
