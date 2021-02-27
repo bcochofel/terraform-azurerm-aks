@@ -46,7 +46,7 @@ No Modules.
 | os\_disk\_size\_gb | The size of the OS Disk which should be used for each agent in the Node Pool.<br>Changing this forces a new resource to be created. | `number` | `null` | no |
 | os\_disk\_type | The type of disk which should be used for the Operating System.<br>Possible values are Ephemeral and Managed.<br>Changing this forces a new resource to be created. | `string` | `"Managed"` | no |
 | os\_type | The Operating System which should be used for this Node Pool. Changing this<br>forces a new resource to be created. Possible values are Linux and Windows. | `string` | `"Linux"` | no |
-| priority | The Priority for Virtual Machines within the Virtual Machine Scale Set that<br>powers this Node Pool. Possible values are Regular and Spot.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
+| priority | The Priority for Virtual Machines within the Virtual Machine Scale Set that<br>powers this Node Pool. Possible values are Regular and Spot.<br>Changing this forces a new resource to be created. | `string` | `"Regular"` | no |
 | spot\_max\_price | The maximum price you're willing to pay in USD per Virtual Machine.<br>Valid values are -1 (the current on-demand price for a Virtual Machine) or a<br>positive value with up to five decimal places.<br>Changing this forces a new resource to be created. | `number` | `null` | no |
 | tags | A mapping of tags which should be assigned to Resource. | `map(string)` | `{}` | no |
 | vm\_size | The SKU which should be used for the Virtual Machines used in this Node Pool.<br>Changing this forces a new resource to be created. | `string` | `"Standard_D2s_v3"` | no |

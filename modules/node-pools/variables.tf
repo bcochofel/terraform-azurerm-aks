@@ -153,7 +153,7 @@ powers this Node Pool. Possible values are Regular and Spot.
 Changing this forces a new resource to be created.
 EOT
   type        = string
-  default     = null
+  default     = "Regular"
 }
 
 variable "spot_max_price" {
