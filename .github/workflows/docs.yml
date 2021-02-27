@@ -25,10 +25,25 @@ jobs:
       - uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/attach-acr/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/monitoring-log-analytics/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/network-policy-calico/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/spot-node-pool/README.md"
+      - uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/user-assigned-identity/README.md"
       - name: Changelog
         id: changelog
         uses: nuuday/github-changelog-action@v1.0.0
         with:
           next_version: "${{ steps.gitversion.outputs.majorMinorPatch }}"
-      - name: Commit CHANGELOG.ms and README.md
+      - name: Commit changed files
         uses: stefanzweifel/git-auto-commit-action@v4

@@ -6,7 +6,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestAKSUserAssignedIdentityExample(t *testing.T) {
+func TestAKSNetworkPolicyExample(t *testing.T) {
 	t.Parallel()
 
 	// Create values for Terraform
@@ -15,7 +15,7 @@ func TestAKSUserAssignedIdentityExample(t *testing.T) {
 	// Configure Terraform setting up a path to Terraform code.
 	terraformOptions := &terraform.Options{
 		// Relative path to the Terraform dir
-		TerraformDir: "../examples/user-assigned-identity",
+		TerraformDir: "../examples/network-policy-calico",
 	}
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created

@@ -1,10 +1,10 @@
-# AKS cluster with Log Analytics
+# AKS cluster with Network Policies
 
-This example deploys a AKS cluster with Log Analytics Monitoring.
+This example deploys a AKS cluster with Network Policies using calico.
 
 ## Usage
 
-```hcl:examples/monitoring-log-analytics/main.tf
+```hcl:examples/network-policy-calico/main.tf
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
