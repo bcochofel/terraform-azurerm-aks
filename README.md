@@ -88,6 +88,7 @@ module "aks" {
 | dns\_service\_ip | IP address within the Kubernetes service address range that will be used by<br>cluster service discovery (kube-dns).<br>Changing this forces a new resource to be created. | `string` | `null` | no |
 | docker\_bridge\_cidr | IP address (in CIDR notation) used as the Docker bridge IP address on nodes.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
 | enable\_aci\_connector\_linux | Is the virtual node addon enabled? | `bool` | `false` | no |
+| enable\_attach\_acr | Enable ACR Pull attach. Needs acr\_id to be defined. | `bool` | `false` | no |
 | enable\_auto\_scaling | Should the Kubernetes Auto Scaler be enabled for this Node Pool?<br>This requires that the type is set to VirtualMachineScaleSets. | `bool` | `false` | no |
 | enable\_azure\_active\_directory | Enable Azure Active Directory Integration? | `bool` | `false` | no |
 | enable\_azure\_policy | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `false` | no |

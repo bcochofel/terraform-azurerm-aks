@@ -178,12 +178,12 @@ resource "azurerm_log_analytics_solution" "main" {
 }
 
 resource "azurerm_role_assignment" "attach_acr" {
-  count = var.acr_id == "" ? 0 : 1
+  count = var.enable_attach_acr ? 1 : 0
 
   scope                = var.acr_id
   role_definition_name = "AcrPull"
   principal_id = coalesce(var.client_id,
-    azurerm_kubernetes_cluster.aks.kubelet_identity[0].user_assigned_identity_id
+    azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
   )
 }
 
