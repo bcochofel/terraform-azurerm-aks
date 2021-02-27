@@ -22,6 +22,8 @@ No provider.
 |------|--------|---------|
 | aks | ../.. |  |
 | rg | bcochofel/resource-group/azurerm | 1.4.0 |
+| subnet | bcochofel/subnet/azurerm | 1.3.1 |
+| vnet | bcochofel/virtual-network/azurerm | 1.2.1 |
 
 ## Resources
 
