@@ -58,3 +58,35 @@ output "identity" {
   description = "A identity block"
   value       = azurerm_kubernetes_cluster.aks.identity
 }
+
+output "client_key" {
+  description = "Client Key"
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].client_key
+  sensitive   = true
+}
+
+output "client_certificate" {
+  description = "Client Certificate."
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].client_certificate
+}
+
+output "cluster_ca_certificate" {
+  description = "Client CA Certificate."
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].cluster_ca_certificate
+}
+
+output "host" {
+  description = "Host"
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].host
+}
+
+output "username" {
+  description = "Username"
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].username
+}
+
+output "password" {
+  description = "Password"
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].password
+  sensitive   = true
+}

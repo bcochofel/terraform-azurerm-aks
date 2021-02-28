@@ -217,15 +217,18 @@ variable "node_pools" {
 Allows to create multiple Node Pools.
 
 node_pools can have more than one pool. The name attribute is used
-to create key/value map, but all the other elements are opcional.
+to create key/value map, and priority is needed to filter, but all the other
+elements are optional.
 
 ```hcl
 node_pools = [
   {
     name = "user1"
+    priority = "Regular"
   },
   {
     name = "spot1"
+    priority = "Spot"
   }
 ]
 ```

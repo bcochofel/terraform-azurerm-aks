@@ -36,7 +36,6 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
 ## Requirements
 
 | Name | Version |
@@ -112,7 +111,7 @@ module "aks" {
 | network\_policy | Sets up network policy to be used with Azure CNI.<br>Currently supported values are calico and azure.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
 | node\_count | The initial number of nodes which should exist in this Node Pool. If specified<br>this must be between 1 and 1000 and between min\_count and max\_count. | `number` | `1` | no |
 | node\_labels | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool.<br>Changing this forces a new resource to be created. | `map(string)` | `{}` | no |
-| node\_pools | Allows to create multiple Node Pools.<br><br>node\_pools can have more than one pool. The name attribute is used<br>to create key/value map, but all the other elements are opcional.<pre>hcl<br>node_pools = [<br>  {<br>    name = "user1"<br>  },<br>  {<br>    name = "spot1"<br>  }<br>]</pre>Valid fields are:<br><br>* vm\_size<br>* availability\_zones<br>* enable\_auto\_scaling<br>* enable\_host\_encryption<br>* enable\_node\_public\_ip<br>* eviction\_policy<br>* max\_pods<br>* mode<br>* node\_labels<br>* node\_taints<br>* orchestrator\_version<br>* os\_disk\_size\_gb<br>* os\_disk\_type<br>* os\_type<br>* priority<br>* spto\_max\_price<br>* tags<br>* max\_count<br>* min\_count<br>* node\_count<br>* max\_surge | `any` | `[]` | no |
+| node\_pools | Allows to create multiple Node Pools.<br><br>node\_pools can have more than one pool. The name attribute is used<br>to create key/value map, and priority is needed to filter, but all the other<br>elements are optional.<pre>hcl<br>node_pools = [<br>  {<br>    name = "user1"<br>    priority = "Regular"<br>  },<br>  {<br>    name = "spot1"<br>    priority = "Spot"<br>  }<br>]</pre>Valid fields are:<br><br>* vm\_size<br>* availability\_zones<br>* enable\_auto\_scaling<br>* enable\_host\_encryption<br>* enable\_node\_public\_ip<br>* eviction\_policy<br>* max\_pods<br>* mode<br>* node\_labels<br>* node\_taints<br>* orchestrator\_version<br>* os\_disk\_size\_gb<br>* os\_disk\_type<br>* os\_type<br>* priority<br>* spto\_max\_price<br>* tags<br>* max\_count<br>* min\_count<br>* node\_count<br>* max\_surge | `any` | `[]` | no |
 | node\_resource\_group | The name of the Resource Group where the Kubernetes Nodes should exist.<br>Changing this forces a new resource to be created.<br>Azure requires that a new, non-existent Resource Group is used, as otherwise the<br>provisioning of the Kubernetes Service will fail. | `string` | `null` | no |
 | only\_critical\_addons\_enabled | Enabling this option will taint default node pool with<br>CriticalAddonsOnly=true:NoSchedule taint.<br>Changing this forces a new resource to be created. | `bool` | `false` | no |
 | orchestrator\_version | Version of Kubernetes used for the Agents. If not specified, the latest<br>recommended version will be used at provisioning time (but won't auto-upgrade) | `string` | `null` | no |
@@ -139,7 +138,11 @@ module "aks" {
 
 | Name | Description |
 |------|-------------|
+| client\_certificate | Client Certificate. |
+| client\_key | Client Key |
+| cluster\_ca\_certificate | Client CA Certificate. |
 | fqdn | The FQDN of the Azure Kubernetes Managed Cluster. |
+| host | Host |
 | id | The Kubernetes Managed Cluster ID. |
 | identity | A identity block |
 | kube\_admin\_config | A kube\_admin\_config block. This is only available when Role Based Access Control with Azure Active Directory is enabled. |
@@ -149,7 +152,9 @@ module "aks" {
 | kubelet\_identity | A kubelet\_identity block |
 | name | The Kubernetes Managed Cluster name. |
 | node\_resource\_group | The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. |
+| password | Password |
 | private\_fqdn | The FQDN for the Kubernetes Cluster when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster. |
+| username | Username |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
