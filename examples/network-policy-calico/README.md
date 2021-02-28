@@ -35,6 +35,7 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
@@ -72,3 +73,4 @@ No input.
 | node\_resource\_group | n/a |
 | private\_fqdn | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+

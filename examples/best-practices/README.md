@@ -71,12 +71,13 @@ module "aks" {
       enable_auto_scaling  = true
       max_pods             = 100
       orchestrator_version = "1.18.14"
+      priority             = "Regular"
       max_count            = 3
       min_count            = 1
       node_count           = 1
     },
     {
-      name                 = "spot"
+      name                 = "spot1"
       max_pods             = 100
       orchestrator_version = "1.18.14"
       priority             = "Spot"
@@ -101,6 +102,7 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
