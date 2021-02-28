@@ -3,10 +3,19 @@
 ## [Unreleased]
 
 
+<a name="1.1.2"></a>
+## [1.1.2] - 2021-02-28
+### Fix
+- node pools handle regular and spot priority
+
+
 <a name="1.1.1"></a>
 ## [1.1.1] - 2021-02-27
 ### Docs
 - update example docs
+
+### Pull Requests
+- Merge pull request [#12](https://github.com/bcochofel/terraform-azurerm-aks/issues/12) from bcochofel/docs_workflow
 
 
 <a name="1.1.0"></a>
@@ -151,7 +160,8 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...HEAD
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...HEAD
+[1.1.2]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.10.0...1.1.0
 [0.10.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.9.0...0.10.0
