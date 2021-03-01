@@ -1,6 +1,13 @@
 resource "azurerm_kubernetes_cluster_node_pool" "spot" {
   for_each = local.spot_node_pools
 
+  lifecycle {
+    ignore_changes = [
+      node_count,
+      tags
+    ]
+  }
+
   kubernetes_cluster_id = var.kubernetes_cluster_id
   vnet_subnet_id        = var.vnet_subnet_id
 
@@ -36,6 +43,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot" {
 
 resource "azurerm_kubernetes_cluster_node_pool" "regular" {
   for_each = local.regular_node_pools
+
+  lifecycle {
+    ignore_changes = [
+      node_count,
+      tags
+    ]
+  }
 
   kubernetes_cluster_id = var.kubernetes_cluster_id
   vnet_subnet_id        = var.vnet_subnet_id
