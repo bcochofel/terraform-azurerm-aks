@@ -3,10 +3,19 @@
 ## [Unreleased]
 
 
+<a name="1.2.0"></a>
+## [1.2.0] - 2021-03-01
+### Feat
+- node pools tags
+
+
 <a name="1.1.3"></a>
 ## [1.1.3] - 2021-03-01
 ### Fix
 - azure AD integration example
+
+### Pull Requests
+- Merge pull request [#15](https://github.com/bcochofel/terraform-azurerm-aks/issues/15) from bcochofel/fix_aad
 
 
 <a name="1.1.2"></a>
@@ -169,7 +178,8 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.3...HEAD
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.3...1.2.0
 [1.1.3]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.0...1.1.1

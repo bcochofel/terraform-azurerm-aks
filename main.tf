@@ -53,6 +53,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
         max_surge = var.max_surge
       }
     }
+
+    tags = var.agent_tags
   }
 
   dynamic "service_principal" {
