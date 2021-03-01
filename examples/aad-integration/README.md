@@ -42,6 +42,7 @@ module "aks" {
 
   default_pool_name = "default"
 
+  enable_azure_active_directory   = true
   rbac_aad_managed                = true
   rbac_aad_admin_group_object_ids = [azuread_group.k8sadmins.object_id]
 
@@ -51,6 +52,7 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
