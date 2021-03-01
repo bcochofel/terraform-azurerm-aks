@@ -3,10 +3,19 @@
 ## [Unreleased]
 
 
+<a name="1.1.3"></a>
+## [1.1.3] - 2021-03-01
+### Fix
+- azure AD integration example
+
+
 <a name="1.1.2"></a>
 ## [1.1.2] - 2021-02-28
 ### Fix
 - node pools handle regular and spot priority
+
+### Pull Requests
+- Merge pull request [#14](https://github.com/bcochofel/terraform-azurerm-aks/issues/14) from bcochofel/fix_node_pools
 
 
 <a name="1.1.1"></a>
@@ -160,7 +169,8 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.3...HEAD
+[1.1.3]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/0.10.0...1.1.0
