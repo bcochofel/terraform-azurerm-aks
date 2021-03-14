@@ -217,28 +217,6 @@ EOT
   default     = null
 }
 
-# end - default_node_pool block variables
-
-# start - identity/service_principal
-
-variable "client_id" {
-  description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
-  type        = string
-  default     = ""
-}
-
-variable "client_secret" {
-  description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
-  type        = string
-  default     = ""
-}
-
-variable "user_assigned_identity_id" {
-  description = "The ID of a user assigned identity."
-  type        = string
-  default     = ""
-}
-
 variable "admin_username" {
   description = <<EOT
 The Admin Username for the Cluster.
@@ -246,6 +224,16 @@ Changing this forces a new resource to be created.
 EOT
   type        = string
   default     = "azureuser"
+}
+
+# end - default_node_pool block variables
+
+# start - identity/service_principal
+
+variable "user_assigned_identity_id" {
+  description = "The ID of a user assigned identity."
+  type        = string
+  default     = ""
 }
 
 # end - identity/service_principal

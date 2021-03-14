@@ -36,19 +36,18 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.20 |
-| azurerm | >= 2.48.0 |
+| terraform | >= 0.13.0 |
+| azurerm | >= 2.49.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 2.48.0 |
+| azurerm | >= 2.49.0 |
 | random | n/a |
 
 ## Modules
@@ -81,8 +80,6 @@ module "aks" {
 | api\_server\_authorized\_ip\_ranges | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
 | automatic\_channel\_upgrade | The upgrade channel for this Kubernetes Cluster.<br>Possible values are none, patch, rapid, and stable.<br>Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)<br>to the latest GA version of Kubernetes automatically.<br>Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview). | `string` | `null` | no |
 | availability\_zones | A list of Availability Zones across which the Node Pool should be spread.<br>Changing this forces a new resource to be created.<br>This requires that the type is set to VirtualMachineScaleSets and that<br>load\_balancer\_sku is set to Standard. | `list(string)` | `null` | no |
-| client\_id | (Optional) The Client ID (appId) for the Service Principal used for the AKS deployment | `string` | `""` | no |
-| client\_secret | (Optional) The Client Secret (password) for the Service Principal used for the AKS deployment | `string` | `""` | no |
 | default\_pool\_name | The name which should be used for the default Kubernetes Node Pool.<br>Changing this forces a new resource to be created. | `string` | n/a | yes |
 | disk\_encryption\_set\_id | (Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes.<br>Please see [the documentation](https://docs.microsoft.com/en-us/azure/aks/azure-disk-customer-managed-keys)<br>and [disk\_encryption\_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set)<br>for more information. | `string` | `null` | no |
 | dns\_prefix | DNS prefix specified when creating the managed cluster.<br>Changing this forces a new resource to be created. | `string` | n/a | yes |
@@ -188,5 +185,3 @@ To run the hooks you need to install:
 
 * [Azure resource naming restrictions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules)
 * [AKS Overview](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes)
-* [Terraform azurerm_kubernetes_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster)
-* [Terraform azurerm_kubernetes_cluster_node_pool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool)

@@ -57,20 +57,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     tags = var.agent_tags
   }
 
-  dynamic "service_principal" {
-    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
-    content {
-      client_id     = var.client_id
-      client_secret = var.client_secret
-    }
-  }
-
-  dynamic "identity" {
-    for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
-    content {
-      type                      = var.user_assigned_identity_id == "" ? "SystemAssigned" : "UserAssigned"
-      user_assigned_identity_id = var.user_assigned_identity_id == "" ? null : var.user_assigned_identity_id
-    }
+  identity {
+    type                      = var.user_assigned_identity_id == "" ? "SystemAssigned" : "UserAssigned"
+    user_assigned_identity_id = var.user_assigned_identity_id == "" ? null : var.user_assigned_identity_id
   }
 
   linux_profile {
@@ -179,6 +168,15 @@ resource "azurerm_log_analytics_solution" "main" {
   tags = var.tags
 }
 
+module "node-pools" {
+  source = "./modules/node-pools"
+
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  vnet_subnet_id        = var.vnet_subnet_id
+
+  node_pools = var.node_pools
+}
+
 resource "azurerm_role_assignment" "attach_acr" {
   count = var.enable_attach_acr ? 1 : 0
 
@@ -189,11 +187,18 @@ resource "azurerm_role_assignment" "attach_acr" {
   )
 }
 
-module "node-pools" {
-  source = "./modules/node-pools"
+resource "azurerm_role_assignment" "aks" {
+  count = var.enable_log_analytics_workspace ? 1 : 0
 
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  vnet_subnet_id        = var.vnet_subnet_id
+  scope                = azurerm_kubernetes_cluster.aks.id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = azurerm_kubernetes_cluster.aks.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
+}
 
-  node_pools = var.node_pools
+resource "azurerm_role_assignment" "aks_subnet" {
+  count = var.user_assigned_identity_id == "" ? 1 : 0
+
+  scope                = var.vnet_subnet_id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
 }
