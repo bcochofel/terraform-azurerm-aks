@@ -24,6 +24,37 @@ Azure CLI
 az provider register --namespace Microsoft.ContainerInstance
 ```
 
+To deploy an application you can use the following example:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aci-helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aci-helloworld
+  template:
+    metadata:
+      labels:
+        app: aci-helloworld
+    spec:
+      containers:
+      - name: aci-helloworld
+        image: microsoft/aci-helloworld
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        kubernetes.io/role: agent
+        beta.kubernetes.io/os: linux
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Exists
+```
+
 ## Usage
 
 ```hcl:examples/aci-connector/main.tf
