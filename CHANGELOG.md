@@ -5,6 +5,9 @@
 
 <a name="3.0.0"></a>
 ## [3.0.0] - 2021-03-14
+### Docs
+- AKS best practices example
+
 ### Feat
 - Removed SP support
 
