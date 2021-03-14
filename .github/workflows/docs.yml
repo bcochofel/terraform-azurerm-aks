@@ -26,6 +26,10 @@ jobs:
         uses: tokusumi/markdown-embed-code@main
         with:
           markdown: "README.md"
+      - name: aci-connector README.md
+        uses: tokusumi/markdown-embed-code@main
+        with:
+          markdown: "examples/aci-connector/README.md"
       - name: aad-integration README.md
         uses: tokusumi/markdown-embed-code@main
         with:
