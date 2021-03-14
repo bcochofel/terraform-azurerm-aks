@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: aci-helloworld
-        image: microsoft/aci-helloworld
+        image: mcr.microsoft.com/azuredocs/aci-helloworld
         ports:
         - containerPort: 80
       nodeSelector:
@@ -53,6 +53,8 @@ spec:
       tolerations:
       - key: virtual-kubelet.io/provider
         operator: Exists
+      - key: azure.com/aci
+        effect: NoSchedule
 ```
 
 ## Usage
