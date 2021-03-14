@@ -3,8 +3,17 @@
 ## [Unreleased]
 
 
-<a name="3.0.0"></a>
-## [3.0.0] - 2021-03-14
+<a name="2.1.0"></a>
+## [2.1.0] - 2021-03-14
+### Feat
+- ACI connector example
+
+### Fix
+- private dns zone default
+
+
+<a name="2.0.0"></a>
+## [2.0.0] - 2021-03-14
 ### Docs
 - AKS best practices example
 
@@ -13,6 +22,9 @@
 
 ### Test
 - best practices
+
+### Pull Requests
+- Merge pull request [#17](https://github.com/bcochofel/terraform-azurerm-aks/issues/17) from bcochofel/release-2.0.0
 
 
 <a name="1.2.0"></a>
@@ -193,8 +205,9 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/3.0.0...HEAD
-[3.0.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.2.0...3.0.0
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/2.0.0...2.1.0
+[2.0.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.2.0...2.0.0
 [1.2.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.3...1.2.0
 [1.1.3]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...1.1.2
