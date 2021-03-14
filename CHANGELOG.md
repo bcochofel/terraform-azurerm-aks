@@ -6,6 +6,7 @@
 <a name="2.1.0"></a>
 ## [2.1.0] - 2021-03-14
 ### Docs
+- aci connector app example
 - gh workflow
 
 ### Feat
