@@ -536,7 +536,7 @@ role and access to this Private DNS Zone. If UserAssigned identity is used - to
 prevent improper resource order destruction - cluster should depend on the role assignment
 EOT
   type        = string
-  default     = "System"
+  default     = null
 }
 
 variable "tags" {
