@@ -1,6 +1,24 @@
 # AKS cluster with some best practices
 
-This example deploys a AKS cluster with some best practices.
+This example deploys a AKS cluster with some best practices like:
+
+* Azure AD integration
+* Private cluster with private DNS zone
+* User Identity (with role assignment to RG and Private DNS)
+* Node pools with auto-scale enabled and Availability Zones
+* Azure Monitoring
+* Azure CNI with calico
+* Default Node pool with taints for critical add-ons only
+
+To be able to deploy to the default node pool use the following tolerations:
+
+```yaml
+tolerations:
+  - key: "CriticalAddonsOnly"
+    operator: "Equal"
+    value: "true"
+    effect: NoSchedule
+```
 
 ## Usage
 
@@ -110,6 +128,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
+| azuread | n/a |
 | azurerm | n/a |
 
 ## Modules
@@ -125,6 +144,8 @@ No requirements.
 
 | Name |
 |------|
+| [azuread_group](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) |
+| [azuread_user](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/user) |
 | [azurerm_private_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) |
 | [azurerm_role_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) |
 | [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) |

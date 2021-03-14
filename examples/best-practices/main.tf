@@ -2,6 +2,19 @@ provider "azurerm" {
   features {}
 }
 
+provider "azuread" {}
+
+data "azuread_user" "aad" {
+  mail_nickname = "bruno.cochofel_gmail.com#EXT#"
+}
+
+resource "azuread_group" "k8sadmins" {
+  display_name = "Kubernetes Admins"
+  members = [
+    data.azuread_user.aad.object_id,
+  ]
+}
+
 module "rg" {
   source  = "bcochofel/resource-group/azurerm"
   version = "1.4.0"
@@ -65,7 +78,12 @@ module "aks" {
   default_pool_name = "default"
 
   user_assigned_identity_id = azurerm_user_assigned_identity.main.id
-  private_dns_zone_id       = azurerm_private_dns_zone.main.id
+
+  enable_azure_active_directory   = true
+  rbac_aad_managed                = true
+  rbac_aad_admin_group_object_ids = [azuread_group.k8sadmins.object_id]
+
+  private_dns_zone_id = azurerm_private_dns_zone.main.id
 
   node_resource_group = "aks-${var.identifier}-example"
 
@@ -86,6 +104,8 @@ module "aks" {
   network_policy = "calico"
 
   kubernetes_version = "1.18.14"
+
+  only_critical_addons_enabled = true
 
   node_pools = [
     {
