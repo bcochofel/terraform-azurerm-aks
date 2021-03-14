@@ -57,20 +57,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     tags = var.agent_tags
   }
 
-  dynamic "service_principal" {
-    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
-    content {
-      client_id     = var.client_id
-      client_secret = var.client_secret
-    }
-  }
-
-  dynamic "identity" {
-    for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
-    content {
-      type                      = var.user_assigned_identity_id == "" ? "SystemAssigned" : "UserAssigned"
-      user_assigned_identity_id = var.user_assigned_identity_id == "" ? null : var.user_assigned_identity_id
-    }
+  identity {
+    type                      = var.user_assigned_identity_id == "" ? "SystemAssigned" : "UserAssigned"
+    user_assigned_identity_id = var.user_assigned_identity_id == "" ? null : var.user_assigned_identity_id
   }
 
   linux_profile {
@@ -144,6 +133,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
   disk_encryption_set_id          = var.disk_encryption_set_id
   private_cluster_enabled         = var.private_cluster_enabled
+  private_dns_zone_id             = var.private_dns_zone_id
   node_resource_group             = var.node_resource_group
   sku_tier                        = var.sku_tier
 
@@ -179,16 +169,6 @@ resource "azurerm_log_analytics_solution" "main" {
   tags = var.tags
 }
 
-resource "azurerm_role_assignment" "attach_acr" {
-  count = var.enable_attach_acr ? 1 : 0
-
-  scope                = var.acr_id
-  role_definition_name = "AcrPull"
-  principal_id = coalesce(var.client_id,
-    azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-  )
-}
-
 module "node-pools" {
   source = "./modules/node-pools"
 
@@ -196,4 +176,20 @@ module "node-pools" {
   vnet_subnet_id        = var.vnet_subnet_id
 
   node_pools = var.node_pools
+}
+
+resource "azurerm_role_assignment" "attach_acr" {
+  count = var.enable_attach_acr ? 1 : 0
+
+  scope                = var.acr_id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+}
+
+resource "azurerm_role_assignment" "aks" {
+  count = var.enable_log_analytics_workspace ? 1 : 0
+
+  scope                = azurerm_kubernetes_cluster.aks.id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = azurerm_kubernetes_cluster.aks.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
 }

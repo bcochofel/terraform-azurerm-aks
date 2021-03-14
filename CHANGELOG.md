@@ -3,10 +3,25 @@
 ## [Unreleased]
 
 
+<a name="3.0.0"></a>
+## [3.0.0] - 2021-03-14
+### Docs
+- AKS best practices example
+
+### Feat
+- Removed SP support
+
+### Test
+- best practices
+
+
 <a name="1.2.0"></a>
 ## [1.2.0] - 2021-03-01
 ### Feat
 - node pools tags
+
+### Pull Requests
+- Merge pull request [#16](https://github.com/bcochofel/terraform-azurerm-aks/issues/16) from bcochofel/node_pool_tags
 
 
 <a name="1.1.3"></a>
@@ -178,7 +193,8 @@
 <a name="0.1.0"></a>
 ## 0.1.0 - 2021-02-23
 
-[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/bcochofel/terraform-azurerm-aks/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.2.0...3.0.0
 [1.2.0]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.3...1.2.0
 [1.1.3]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/bcochofel/terraform-azurerm-aks/compare/1.1.1...1.1.2

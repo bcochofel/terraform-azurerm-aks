@@ -37,18 +37,19 @@ module "aks" {
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.20 |
-| azurerm | >= 2.48.0 |
+| terraform | >= 0.13.0 |
+| azurerm | >= 2.49.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 2.48.0 |
+| azurerm | >= 2.49.0 |
 | random | n/a |
 
 ## Modules
@@ -81,8 +82,6 @@ module "aks" {
 | api\_server\_authorized\_ip\_ranges | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
 | automatic\_channel\_upgrade | The upgrade channel for this Kubernetes Cluster.<br>Possible values are none, patch, rapid, and stable.<br>Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)<br>to the latest GA version of Kubernetes automatically.<br>Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview). | `string` | `null` | no |
 | availability\_zones | A list of Availability Zones across which the Node Pool should be spread.<br>Changing this forces a new resource to be created.<br>This requires that the type is set to VirtualMachineScaleSets and that<br>load\_balancer\_sku is set to Standard. | `list(string)` | `null` | no |
-| client\_id | (Optional) The Client ID (appId) for the Service Principal used for the AKS deployment | `string` | `""` | no |
-| client\_secret | (Optional) The Client Secret (password) for the Service Principal used for the AKS deployment | `string` | `""` | no |
 | default\_pool\_name | The name which should be used for the default Kubernetes Node Pool.<br>Changing this forces a new resource to be created. | `string` | n/a | yes |
 | disk\_encryption\_set\_id | (Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes.<br>Please see [the documentation](https://docs.microsoft.com/en-us/azure/aks/azure-disk-customer-managed-keys)<br>and [disk\_encryption\_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set)<br>for more information. | `string` | `null` | no |
 | dns\_prefix | DNS prefix specified when creating the managed cluster.<br>Changing this forces a new resource to be created. | `string` | n/a | yes |
@@ -121,6 +120,7 @@ module "aks" {
 | outbound\_type | The outbound (egress) routing method which should be used for this Kubernetes<br>Cluster. Possible values are loadBalancer and userDefinedRouting. | `string` | `"loadBalancer"` | no |
 | pod\_cidr | The CIDR to use for pod IP addresses. This field can only be set when<br>network\_plugin is set to kubenet.<br>Changing this forces a new resource to be created. | `string` | `null` | no |
 | private\_cluster\_enabled | Should this Kubernetes Cluster have its API server only exposed on internal<br>IP addresses? This provides a Private IP Address for the Kubernetes API on the<br>Virtual Network where the Kubernetes Cluster is located.<br>Changing this forces a new resource to be created. | `bool` | `false` | no |
+| private\_dns\_zone\_id | Either the ID of Private DNS Zone which should be delegated to this Cluster,<br>or System to have AKS manage this.<br>If you use BYO DNS Zone, AKS cluster should either use a User Assigned Identity<br>or a service principal (which is deprecated) with the Private DNS Zone Contributor<br>role and access to this Private DNS Zone. If UserAssigned identity is used - to<br>prevent improper resource order destruction - cluster should depend on the role assignment | `string` | `"System"` | no |
 | public\_ssh\_key | The Public SSH Key used to access the cluster.<br>Changing this forces a new resource to be created. | `string` | `""` | no |
 | rbac\_aad\_admin\_group\_object\_ids | Object ID of groups with admin access. | `list(string)` | `null` | no |
 | rbac\_aad\_client\_app\_id | The Client ID of an Azure Active Directory Application. | `string` | `null` | no |
@@ -188,5 +188,3 @@ To run the hooks you need to install:
 
 * [Azure resource naming restrictions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules)
 * [AKS Overview](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes)
-* [Terraform azurerm_kubernetes_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster)
-* [Terraform azurerm_kubernetes_cluster_node_pool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool)

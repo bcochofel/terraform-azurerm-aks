@@ -217,28 +217,6 @@ EOT
   default     = null
 }
 
-# end - default_node_pool block variables
-
-# start - identity/service_principal
-
-variable "client_id" {
-  description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
-  type        = string
-  default     = ""
-}
-
-variable "client_secret" {
-  description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
-  type        = string
-  default     = ""
-}
-
-variable "user_assigned_identity_id" {
-  description = "The ID of a user assigned identity."
-  type        = string
-  default     = ""
-}
-
 variable "admin_username" {
   description = <<EOT
 The Admin Username for the Cluster.
@@ -246,6 +224,16 @@ Changing this forces a new resource to be created.
 EOT
   type        = string
   default     = "azureuser"
+}
+
+# end - default_node_pool block variables
+
+# start - identity/service_principal
+
+variable "user_assigned_identity_id" {
+  description = "The ID of a user assigned identity."
+  type        = string
+  default     = ""
 }
 
 # end - identity/service_principal
@@ -536,6 +524,19 @@ Possible values are Free and Paid (which includes the Uptime SLA).
 EOT
   type        = string
   default     = "Free"
+}
+
+variable "private_dns_zone_id" {
+  description = <<EOT
+Either the ID of Private DNS Zone which should be delegated to this Cluster,
+or System to have AKS manage this.
+If you use BYO DNS Zone, AKS cluster should either use a User Assigned Identity
+or a service principal (which is deprecated) with the Private DNS Zone Contributor
+role and access to this Private DNS Zone. If UserAssigned identity is used - to
+prevent improper resource order destruction - cluster should depend on the role assignment
+EOT
+  type        = string
+  default     = "System"
 }
 
 variable "tags" {
