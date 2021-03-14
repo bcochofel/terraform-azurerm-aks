@@ -62,19 +62,6 @@ provider "azurerm" {
   features {}
 }
 
-provider "azuread" {}
-
-data "azuread_user" "aad" {
-  mail_nickname = "bruno.cochofel_gmail.com#EXT#"
-}
-
-resource "azuread_group" "k8sadmins" {
-  display_name = "Kubernetes Admins"
-  members = [
-    data.azuread_user.aad.object_id,
-  ]
-}
-
 module "rg" {
   source  = "bcochofel/resource-group/azurerm"
   version = "1.4.0"
@@ -111,20 +98,24 @@ module "subnet" {
   address_prefixes     = ["10.5.0.0/21"]
 }
 
-resource "azurerm_private_dns_zone" "main" {
-  name                = "privatelink.northeurope.azmk8s.io"
-  resource_group_name = module.rg.name
+resource "azurerm_subnet" "example-aci" {
+  name                 = "snet-aci-example"
+  resource_group_name  = module.rg.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = ["10.5.8.0/24"]
+
+  delegation {
+    name = "aciDelegation"
+    service_delegation {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
 }
 
 resource "azurerm_role_assignment" "network" {
   scope                = module.rg.id
   role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.main.principal_id
-}
-
-resource "azurerm_role_assignment" "dns" {
-  scope                = azurerm_private_dns_zone.main.id
-  role_definition_name = "Private DNS Zone Contributor"
   principal_id         = azurerm_user_assigned_identity.main.principal_id
 }
 
@@ -139,24 +130,17 @@ module "aks" {
 
   user_assigned_identity_id = azurerm_user_assigned_identity.main.id
 
-  enable_azure_active_directory   = true
-  rbac_aad_managed                = true
-  rbac_aad_admin_group_object_ids = [azuread_group.k8sadmins.object_id]
-
-  private_dns_zone_id = azurerm_private_dns_zone.main.id
-
   node_resource_group = "aks-${var.identifier}-example"
 
-  private_cluster_enabled = true
-
-  availability_zones   = ["1", "2", "3"]
   enable_auto_scaling  = true
-  max_pods             = 100
   orchestrator_version = "1.18.14"
   vnet_subnet_id       = module.subnet.id
   max_count            = 3
   min_count            = 1
   node_count           = 1
+
+  enable_aci_connector_linux      = true
+  aci_connector_linux_subnet_name = azurerm_subnet.example-aci.name
 
   enable_log_analytics_workspace = true
 
@@ -165,44 +149,12 @@ module "aks" {
 
   kubernetes_version = "1.18.14"
 
-  only_critical_addons_enabled = true
-
-  node_pools = [
-    {
-      name                 = "user1"
-      availability_zones   = ["1", "2", "3"]
-      enable_auto_scaling  = true
-      max_pods             = 100
-      orchestrator_version = "1.18.14"
-      priority             = "Regular"
-      max_count            = 3
-      min_count            = 1
-      node_count           = 1
-    },
-    {
-      name                 = "spot1"
-      max_pods             = 100
-      orchestrator_version = "1.18.14"
-      priority             = "Spot"
-      eviction_policy      = "Delete"
-      spot_max_price       = 0.5 # note: this is the "maximum" price
-      node_labels = {
-        "kubernetes.azure.com/scalesetpriority" = "spot"
-      }
-      node_taints = [
-        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
-      ]
-      node_count = 1
-    }
-  ]
-
   tags = {
     "ManagedBy" = "Terraform"
   }
 
   depends_on = [
     module.rg,
-    azurerm_role_assignment.dns,
     azurerm_role_assignment.network
   ]
 }
@@ -210,6 +162,7 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Requirements
 
 No requirements.
