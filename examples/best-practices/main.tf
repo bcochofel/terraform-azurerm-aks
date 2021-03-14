@@ -6,8 +6,15 @@ module "rg" {
   source  = "bcochofel/resource-group/azurerm"
   version = "1.4.0"
 
-  name     = "rg-aks-best-practices-example"
-  location = "North Europe"
+  name     = "rg-${var.identifier}-example"
+  location = var.location
+}
+
+resource "azurerm_user_assigned_identity" "main" {
+  resource_group_name = module.rg.name
+  location            = module.rg.location
+
+  name = "identity-${var.identifier}-example"
 }
 
 module "vnet" {
@@ -15,7 +22,7 @@ module "vnet" {
   version = "1.2.1"
 
   resource_group_name = module.rg.name
-  name                = "vnet-best-practices-example"
+  name                = "vnet-${var.identifier}-example"
   address_space       = ["10.5.0.0/16"]
 
   depends_on = [module.rg]
@@ -25,21 +32,44 @@ module "subnet" {
   source  = "bcochofel/subnet/azurerm"
   version = "1.3.1"
 
-  name                 = "snet-best-practices-example"
+  name                 = "snet-${var.identifier}-example"
   resource_group_name  = module.rg.name
   virtual_network_name = module.vnet.name
   address_prefixes     = ["10.5.0.0/21"]
 }
 
+resource "azurerm_private_dns_zone" "main" {
+  name                = "privatelink.northeurope.azmk8s.io"
+  resource_group_name = module.rg.name
+}
+
+resource "azurerm_role_assignment" "network" {
+  scope                = module.rg.id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_user_assigned_identity.main.principal_id
+}
+
+resource "azurerm_role_assignment" "dns" {
+  scope                = azurerm_private_dns_zone.main.id
+  role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.main.principal_id
+}
 
 module "aks" {
   source = "../.."
 
-  name                = "aksbestpractices"
+  name                = "aks${var.identifier}"
   resource_group_name = module.rg.name
   dns_prefix          = "demolab"
 
   default_pool_name = "default"
+
+  user_assigned_identity_id = azurerm_user_assigned_identity.main.id
+  private_dns_zone_id       = azurerm_private_dns_zone.main.id
+
+  node_resource_group = "aks-${var.identifier}-example"
+
+  private_cluster_enabled = true
 
   availability_zones   = ["1", "2", "3"]
   enable_auto_scaling  = true
@@ -85,9 +115,14 @@ module "aks" {
       node_count = 1
     }
   ]
+
   tags = {
     "ManagedBy" = "Terraform"
   }
 
-  depends_on = [module.rg]
+  depends_on = [
+    module.rg,
+    azurerm_role_assignment.dns,
+    azurerm_role_assignment.network
+  ]
 }

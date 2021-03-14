@@ -133,6 +133,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
   disk_encryption_set_id          = var.disk_encryption_set_id
   private_cluster_enabled         = var.private_cluster_enabled
+  private_dns_zone_id             = var.private_dns_zone_id
   node_resource_group             = var.node_resource_group
   sku_tier                        = var.sku_tier
 
@@ -182,9 +183,7 @@ resource "azurerm_role_assignment" "attach_acr" {
 
   scope                = var.acr_id
   role_definition_name = "AcrPull"
-  principal_id = coalesce(var.client_id,
-    azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-  )
+  principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
 }
 
 resource "azurerm_role_assignment" "aks" {
@@ -193,12 +192,4 @@ resource "azurerm_role_assignment" "aks" {
   scope                = azurerm_kubernetes_cluster.aks.id
   role_definition_name = "Monitoring Metrics Publisher"
   principal_id         = azurerm_kubernetes_cluster.aks.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
-}
-
-resource "azurerm_role_assignment" "aks_subnet" {
-  count = var.user_assigned_identity_id == "" ? 1 : 0
-
-  scope                = var.vnet_subnet_id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
 }

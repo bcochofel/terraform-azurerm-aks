@@ -526,6 +526,19 @@ EOT
   default     = "Free"
 }
 
+variable "private_dns_zone_id" {
+  description = <<EOT
+Either the ID of Private DNS Zone which should be delegated to this Cluster,
+or System to have AKS manage this.
+If you use BYO DNS Zone, AKS cluster should either use a User Assigned Identity
+or a service principal (which is deprecated) with the Private DNS Zone Contributor
+role and access to this Private DNS Zone. If UserAssigned identity is used - to
+prevent improper resource order destruction - cluster should depend on the role assignment
+EOT
+  type        = string
+  default     = "System"
+}
+
 variable "tags" {
   description = "A mapping of tags which should be assigned to Resources."
   type        = map(string)
