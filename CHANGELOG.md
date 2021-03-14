@@ -11,6 +11,9 @@
 ### Feat
 - Removed SP support
 
+### Test
+- best practices
+
 
 <a name="1.2.0"></a>
 ## [1.2.0] - 2021-03-01
