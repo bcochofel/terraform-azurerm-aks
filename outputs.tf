@@ -14,12 +14,18 @@ output "fqdn" {
 }
 
 output "private_fqdn" {
-  description = "The FQDN for the Kubernetes Cluster when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster."
+  description = <<EOT
+The FQDN for the Kubernetes Cluster when private link has been enabled, which is
+only resolvable inside the Virtual Network used by the Kubernetes Cluster.
+EOT
   value       = azurerm_kubernetes_cluster.aks.private_fqdn
 }
 
 output "kube_admin_config" {
-  description = "A kube_admin_config block. This is only available when Role Based Access Control with Azure Active Directory is enabled."
+  description = <<EOT
+A kube_admin_config block. This is only available when Role Based Access Control
+with Azure Active Directory is enabled.
+EOT
   value       = azurerm_kubernetes_cluster.aks.kube_admin_config
 }
 
@@ -45,7 +51,10 @@ EOT
 }
 
 output "node_resource_group" {
-  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  description = <<EOT
+The auto-generated Resource Group which contains the resources for this Managed
+Kubernetes Cluster.
+EOT
   value       = azurerm_kubernetes_cluster.aks.node_resource_group
 }
 
