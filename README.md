@@ -36,8 +36,6 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-
 ## Requirements
 
 | Name | Version |
@@ -146,15 +144,15 @@ module "aks" {
 | host | Host |
 | id | The Kubernetes Managed Cluster ID. |
 | identity | A identity block |
-| kube\_admin\_config | A kube\_admin\_config block. This is only available when Role Based Access Control with Azure Active Directory is enabled. |
+| kube\_admin\_config | A kube\_admin\_config block. This is only available when Role Based Access Control<br>with Azure Active Directory is enabled. |
 | kube\_admin\_config\_raw | Raw Kubernetes config for the admin account to be used by kubectl and other<br>compatible tools. This is only available when Role Based Access Control with<br>Azure Active Directory is enabled. |
 | kube\_config | A kube\_config block. |
 | kube\_config\_raw | Raw Kubernetes config to be used by kubectl and other compatible tools |
 | kubelet\_identity | A kubelet\_identity block |
 | name | The Kubernetes Managed Cluster name. |
-| node\_resource\_group | The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. |
+| node\_resource\_group | The auto-generated Resource Group which contains the resources for this Managed<br>Kubernetes Cluster. |
 | password | Password |
-| private\_fqdn | The FQDN for the Kubernetes Cluster when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster. |
+| private\_fqdn | The FQDN for the Kubernetes Cluster when private link has been enabled, which is<br>only resolvable inside the Virtual Network used by the Kubernetes Cluster. |
 | username | Username |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
