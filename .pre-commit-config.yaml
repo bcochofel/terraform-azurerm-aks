@@ -1,7 +1,7 @@
 ---
 repos:
-  - repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v3.1.0
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -9,7 +9,7 @@ repos:
       - id: check-merge-conflict
       - id: no-commit-to-branch
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.11
+    rev: v0.1.23
     hooks:
       - id: terraform-fmt
       - id: terraform-validate
@@ -19,14 +19,14 @@ repos:
       - id: golint
       - id: tflint
         files: ^examples/.*\.tf
-  - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.45.0
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.88.3
     hooks:
       - id: terraform_docs
 #      - id: terraform_tfsec
 #      - id: checkov
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.15.2
+    rev: v3.20.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
