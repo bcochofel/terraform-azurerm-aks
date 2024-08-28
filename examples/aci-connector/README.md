@@ -164,8 +164,6 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-
 ## Requirements
 
 No requirements.
@@ -174,45 +172,45 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| azurerm | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.0.1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| aks | ../.. |  |
-| rg | bcochofel/resource-group/azurerm | 1.4.0 |
-| subnet | bcochofel/subnet/azurerm | 1.3.1 |
-| vnet | bcochofel/virtual-network/azurerm | 1.2.1 |
+| <a name="module_aks"></a> [aks](#module\_aks) | ../.. | n/a |
+| <a name="module_rg"></a> [rg](#module\_rg) | bcochofel/resource-group/azurerm | 1.4.0 |
+| <a name="module_subnet"></a> [subnet](#module\_subnet) | bcochofel/subnet/azurerm | 1.3.1 |
+| <a name="module_vnet"></a> [vnet](#module\_vnet) | bcochofel/virtual-network/azurerm | 1.2.1 |
 
 ## Resources
 
-| Name |
-|------|
-| [azurerm_role_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) |
-| [azurerm_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) |
-| [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) |
+| Name | Type |
+|------|------|
+| [azurerm_role_assignment.network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_subnet.example-aci](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_user_assigned_identity.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| identifier | Example identifier. | `string` | `"aciconnector"` | no |
-| location | Location for resources. | `string` | `"North Europe"` | no |
+| <a name="input_identifier"></a> [identifier](#input\_identifier) | Example identifier. | `string` | `"aciconnector"` | no |
+| <a name="input_location"></a> [location](#input\_location) | Location for resources. | `string` | `"North Europe"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| fqdn | n/a |
-| id | n/a |
-| identity | n/a |
-| kube\_admin\_config\_raw | n/a |
-| kube\_config\_raw | n/a |
-| kubelet\_identity | n/a |
-| name | n/a |
-| node\_resource\_group | n/a |
-| private\_fqdn | n/a |
+| <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | n/a |
+| <a name="output_identity"></a> [identity](#output\_identity) | n/a |
+| <a name="output_kube_admin_config_raw"></a> [kube\_admin\_config\_raw](#output\_kube\_admin\_config\_raw) | n/a |
+| <a name="output_kube_config_raw"></a> [kube\_config\_raw](#output\_kube\_config\_raw) | n/a |
+| <a name="output_kubelet_identity"></a> [kubelet\_identity](#output\_kubelet\_identity) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |
+| <a name="output_node_resource_group"></a> [node\_resource\_group](#output\_node\_resource\_group) | n/a |
+| <a name="output_private_fqdn"></a> [private\_fqdn](#output\_private\_fqdn) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 

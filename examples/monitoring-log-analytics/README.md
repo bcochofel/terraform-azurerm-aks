@@ -34,22 +34,20 @@ module "aks" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-
 ## Requirements
 
 No requirements.
 
 ## Providers
 
-No provider.
+No providers.
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| aks | ../.. |  |
-| rg | bcochofel/resource-group/azurerm | 1.4.0 |
+| <a name="module_aks"></a> [aks](#module\_aks) | ../.. | n/a |
+| <a name="module_rg"></a> [rg](#module\_rg) | bcochofel/resource-group/azurerm | 1.4.0 |
 
 ## Resources
 
@@ -57,19 +55,19 @@ No resources.
 
 ## Inputs
 
-No input.
+No inputs.
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| fqdn | n/a |
-| id | n/a |
-| identity | n/a |
-| kube\_admin\_config\_raw | n/a |
-| kube\_config\_raw | n/a |
-| kubelet\_identity | n/a |
-| name | n/a |
-| node\_resource\_group | n/a |
-| private\_fqdn | n/a |
+| <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | n/a |
+| <a name="output_identity"></a> [identity](#output\_identity) | n/a |
+| <a name="output_kube_admin_config_raw"></a> [kube\_admin\_config\_raw](#output\_kube\_admin\_config\_raw) | n/a |
+| <a name="output_kube_config_raw"></a> [kube\_config\_raw](#output\_kube\_config\_raw) | n/a |
+| <a name="output_kubelet_identity"></a> [kubelet\_identity](#output\_kubelet\_identity) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |
+| <a name="output_node_resource_group"></a> [node\_resource\_group](#output\_node\_resource\_group) | n/a |
+| <a name="output_private_fqdn"></a> [private\_fqdn](#output\_private\_fqdn) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

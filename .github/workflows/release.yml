@@ -3,33 +3,31 @@ on:
   push:
     branches:
       - main
-      - master
+
+permissions:
+  contents: read # for checkout
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          fetch-depth: '0'
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.8
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          versionSpec: '5.x'
-      - name: Use GitVersion
-        uses: gittools/actions/gitversion/execute@v0.9.8
-        id: gitversion
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
+          node-version: "lts/*"
+      - name: Install dependencies
+        run: npm install -g semantic-release @semantic-release/changelog conventional-changelog-conventionalcommits @semantic-release/git
+      - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
-          release_name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
-          body: |
-            [CHANGELOG](./CHANGELOG.md)
-          draft: false
-          prerelease: false
+        run: npx semantic-release
