@@ -34,7 +34,10 @@ module "aks" {
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.9.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.106.1, < 4.0 |
 
 ## Providers
 
@@ -45,7 +48,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_aks"></a> [aks](#module\_aks) | ../.. | n/a |
-| <a name="module_rg"></a> [rg](#module\_rg) | bcochofel/resource-group/azurerm | 1.4.0 |
+| <a name="module_rg"></a> [rg](#module\_rg) | bcochofel/resource-group/azurerm | 1.6.0 |
 
 ## Resources
 
