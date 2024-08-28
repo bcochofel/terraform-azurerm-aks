@@ -25,6 +25,7 @@
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
+**/.external_modules/*
 
 # .tfstate files
 *.tfstate
