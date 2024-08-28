@@ -541,7 +541,6 @@ variable "rbac_aad" {
   type        = bool
   default     = true
   description = "(Optional) Is Azure Active Directory integration enabled?"
-  nullable    = false
 }
 
 variable "rbac_aad_azure_rbac_enabled" {
@@ -560,5 +559,4 @@ variable "role_based_access_control_enabled" {
   type        = bool
   default     = false
   description = "Enable Role Based Access Control."
-  nullable    = false
 }
