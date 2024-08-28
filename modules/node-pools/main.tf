@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot" {
 
   name                   = each.value.name
   vm_size                = each.value.vm_size
-  availability_zones     = each.value.availability_zones
+  zones                  = each.value.availability_zones
   enable_auto_scaling    = each.value.enable_auto_scaling
   enable_host_encryption = each.value.enable_host_encryption
   enable_node_public_ip  = each.value.enable_node_public_ip
@@ -56,7 +56,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "regular" {
 
   name                   = each.value.name
   vm_size                = each.value.vm_size
-  availability_zones     = each.value.availability_zones
+  zones                  = each.value.availability_zones
   enable_auto_scaling    = each.value.enable_auto_scaling
   enable_host_encryption = each.value.enable_host_encryption
   enable_node_public_ip  = each.value.enable_node_public_ip

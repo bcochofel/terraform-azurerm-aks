@@ -230,15 +230,13 @@ EOT
 
 # start - identity/service_principal
 
-variable "user_assigned_identity_id" {
-  description = "The ID of a user assigned identity."
-  type        = string
-  default     = ""
+variable "user_assigned_identity_ids" {
+  description = "The IDs of a user assigned identity."
+  type        = list(string)
+  default     = null
 }
 
 # end - identity/service_principal
-
-# start - addon_profile
 
 # aci_connector_linux
 
@@ -273,58 +271,6 @@ EOT
   type        = string
   default     = null
 }
-
-# azure_policy
-
-variable "enable_azure_policy" {
-  description = "Is the Azure Policy for Kubernetes Add On enabled?"
-  type        = bool
-  default     = false
-}
-
-# http_application_routing
-
-variable "enable_http_application_routing" {
-  description = "Is HTTP Application Routing Enabled?"
-  type        = bool
-  default     = false
-}
-
-# kube_dashboard
-
-variable "enabled_kube_dashboard" {
-  description = "Is the Kubernetes Dashboard enabled?"
-  type        = bool
-  default     = false
-}
-
-# oms_agent
-
-variable "enable_log_analytics_workspace" {
-  description = <<EOT
-Enable the creation of azurerm_log_analytics_workspace and
-azurerm_log_analytics_solution or not
-EOT
-  type        = bool
-  default     = false
-}
-
-variable "log_analytics_workspace_sku" {
-  description = <<EOT
-The SKU (pricing level) of the Log Analytics workspace.
-For new subscriptions the SKU should be set to PerGB2018
-EOT
-  type        = string
-  default     = "PerGB2018"
-}
-
-variable "log_retention_in_days" {
-  description = "The retention period for the logs in days"
-  type        = number
-  default     = 30
-}
-
-# end - addon_profile
 
 # start - role based access control
 
@@ -409,15 +355,6 @@ EOT
   default     = null
 }
 
-variable "docker_bridge_cidr" {
-  description = <<EOT
-IP address (in CIDR notation) used as the Docker bridge IP address on nodes.
-Changing this forces a new resource to be created.
-EOT
-  type        = string
-  default     = null
-}
-
 variable "outbound_type" {
   description = <<EOT
 The outbound (egress) routing method which should be used for this Kubernetes
@@ -456,24 +393,6 @@ EOT
 }
 
 # end - network profile
-
-variable "automatic_channel_upgrade" {
-  description = <<EOT
-The upgrade channel for this Kubernetes Cluster.
-Possible values are none, patch, rapid, and stable.
-Cluster Auto-Upgrade will update the Kubernetes Cluster (and it's Node Pools)
-to the latest GA version of Kubernetes automatically.
-Please see [the Azure documentation for more information](https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel-preview).
-EOT
-  type        = string
-  default     = null
-}
-
-variable "api_server_authorized_ip_ranges" {
-  description = "The IP ranges to whitelist for incoming traffic to the masters."
-  type        = list(string)
-  default     = null
-}
 
 variable "disk_encryption_set_id" {
   description = <<EOT
@@ -604,4 +523,40 @@ Valid fields are:
 EOT
   type        = any
   default     = []
+}
+
+variable "api_server_authorized_ip_ranges" {
+  type        = set(string)
+  default     = null
+  description = "(Optional) The IP ranges to allow for incoming traffic to the server nodes."
+}
+
+variable "api_server_subnet_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Subnet where the API server endpoint is delegated to."
+}
+
+variable "rbac_aad" {
+  type        = bool
+  default     = true
+  description = "(Optional) Is Azure Active Directory integration enabled?"
+}
+
+variable "rbac_aad_azure_rbac_enabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
+}
+
+variable "rbac_aad_tenant_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used."
+}
+
+variable "role_based_access_control_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable Role Based Access Control."
 }

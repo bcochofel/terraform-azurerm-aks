@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name                         = var.default_pool_name
     vm_size                      = var.vm_size
-    availability_zones           = var.availability_zones
+    zones                        = var.availability_zones
     enable_auto_scaling          = var.enable_auto_scaling
     enable_host_encryption       = var.enable_host_encryption
     enable_node_public_ip        = var.enable_node_public_ip
@@ -58,8 +58,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   identity {
-    type                      = var.user_assigned_identity_id == "" ? "SystemAssigned" : "UserAssigned"
-    user_assigned_identity_id = var.user_assigned_identity_id == "" ? null : var.user_assigned_identity_id
+    type         = var.user_assigned_identity_ids == "" ? "SystemAssigned" : "UserAssigned"
+    identity_ids = var.user_assigned_identity_ids == "" ? null : var.user_assigned_identity_ids
   }
 
   linux_profile {
@@ -71,100 +71,62 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
-  addon_profile {
-    aci_connector_linux {
-      enabled     = var.enable_aci_connector_linux
-      subnet_name = var.enable_aci_connector_linux ? var.aci_connector_linux_subnet_name : null
-    }
+  dynamic "aci_connector_linux" {
+    for_each = var.enable_aci_connector_linux ? ["aci_connector_linux"] : []
 
-    azure_policy {
-      enabled = var.enable_azure_policy
-    }
-
-    http_application_routing {
-      enabled = var.enable_http_application_routing
-    }
-
-    kube_dashboard {
-      enabled = var.enabled_kube_dashboard
-    }
-
-    oms_agent {
-      enabled                    = var.enable_log_analytics_workspace
-      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
+    content {
+      subnet_name = var.aci_connector_linux_subnet_name
     }
   }
 
-  role_based_access_control {
-    enabled = var.enable_role_based_access_control
+  dynamic "api_server_access_profile" {
+    for_each = var.api_server_authorized_ip_ranges != null || var.api_server_subnet_id != null ? [
+      "api_server_access_profile"
+    ] : []
 
-    dynamic "azure_active_directory" {
-      for_each = var.enable_role_based_access_control && var.enable_azure_active_directory && var.rbac_aad_managed ? ["rbac"] : []
-      content {
-        managed                = true
-        admin_group_object_ids = var.rbac_aad_admin_group_object_ids
-      }
+    content {
+      authorized_ip_ranges = var.api_server_authorized_ip_ranges
     }
+  }
 
-    dynamic "azure_active_directory" {
-      for_each = var.enable_role_based_access_control && var.enable_azure_active_directory && !var.rbac_aad_managed ? ["rbac"] : []
-      content {
-        managed           = false
-        client_app_id     = var.rbac_aad_client_app_id
-        server_app_id     = var.rbac_aad_server_app_id
-        server_app_secret = var.rbac_aad_server_app_secret
-      }
+  dynamic "azure_active_directory_role_based_access_control" {
+    for_each = var.role_based_access_control_enabled && var.rbac_aad && var.rbac_aad_managed ? ["rbac"] : []
+
+    content {
+      admin_group_object_ids = var.rbac_aad_admin_group_object_ids
+      azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
+      managed                = true
+      tenant_id              = var.rbac_aad_tenant_id
+    }
+  }
+  dynamic "azure_active_directory_role_based_access_control" {
+    for_each = var.role_based_access_control_enabled && var.rbac_aad && !var.rbac_aad_managed ? ["rbac"] : []
+
+    content {
+      client_app_id     = var.rbac_aad_client_app_id
+      managed           = false
+      server_app_id     = var.rbac_aad_server_app_id
+      server_app_secret = var.rbac_aad_server_app_secret
+      tenant_id         = var.rbac_aad_tenant_id
     }
   }
 
   network_profile {
-    network_plugin     = var.network_plugin
-    network_policy     = var.network_policy
-    dns_service_ip     = var.dns_service_ip
-    docker_bridge_cidr = var.docker_bridge_cidr
-    outbound_type      = var.outbound_type
-    pod_cidr           = var.pod_cidr
-    service_cidr       = var.service_cidr
-    load_balancer_sku  = var.load_balancer_sku
+    network_plugin    = var.network_plugin
+    network_policy    = var.network_policy
+    dns_service_ip    = var.dns_service_ip
+    outbound_type     = var.outbound_type
+    pod_cidr          = var.pod_cidr
+    service_cidr      = var.service_cidr
+    load_balancer_sku = var.load_balancer_sku
   }
 
-  automatic_channel_upgrade       = var.automatic_channel_upgrade
-  kubernetes_version              = var.kubernetes_version
-  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
-  disk_encryption_set_id          = var.disk_encryption_set_id
-  private_cluster_enabled         = var.private_cluster_enabled
-  private_dns_zone_id             = var.private_dns_zone_id
-  node_resource_group             = var.node_resource_group
-  sku_tier                        = var.sku_tier
-
-  tags = var.tags
-}
-
-resource "azurerm_log_analytics_workspace" "main" {
-  count = var.enable_log_analytics_workspace ? 1 : 0
-
-  name                = "${var.dns_prefix}-workspace-${random_string.main.result}"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  sku                 = var.log_analytics_workspace_sku
-  retention_in_days   = var.log_retention_in_days
-
-  tags = var.tags
-}
-
-resource "azurerm_log_analytics_solution" "main" {
-  count = var.enable_log_analytics_workspace ? 1 : 0
-
-  solution_name         = "ContainerInsights"
-  location              = data.azurerm_resource_group.rg.location
-  resource_group_name   = data.azurerm_resource_group.rg.name
-  workspace_resource_id = azurerm_log_analytics_workspace.main[0].id
-  workspace_name        = azurerm_log_analytics_workspace.main[0].name
-
-  plan {
-    publisher = "Microsoft"
-    product   = "OMSGallery/ContainerInsights"
-  }
+  kubernetes_version      = var.kubernetes_version
+  disk_encryption_set_id  = var.disk_encryption_set_id
+  private_cluster_enabled = var.private_cluster_enabled
+  private_dns_zone_id     = var.private_dns_zone_id
+  node_resource_group     = var.node_resource_group
+  sku_tier                = var.sku_tier
 
   tags = var.tags
 }
@@ -184,12 +146,4 @@ resource "azurerm_role_assignment" "attach_acr" {
   scope                = var.acr_id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-}
-
-resource "azurerm_role_assignment" "aks" {
-  count = var.enable_log_analytics_workspace ? 1 : 0
-
-  scope                = azurerm_kubernetes_cluster.aks.id
-  role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = azurerm_kubernetes_cluster.aks.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
 }

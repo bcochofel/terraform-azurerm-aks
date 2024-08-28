@@ -9,7 +9,7 @@ jobs:
     name: Code Format
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/terraform:0.13.0
+      image: hashicorp/terraform:1.9.5
     steps:
       - uses: actions/checkout@master
       - run: terraform fmt --recursive -check=true
@@ -18,7 +18,7 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/terraform:0.13.0
+      image: hashicorp/terraform:1.9.5
     steps:
       - uses: actions/checkout@master
       - name: Validate Examples

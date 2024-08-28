@@ -17,16 +17,16 @@ repos:
 #      - id: terraform_checkov
 #        args:
 #          - --args=--quiet --download-external-modules yes
-#  - repo: https://github.com/gruntwork-io/pre-commit
-#    rev: v0.1.23
-#    hooks:
-#      - id: terraform-validate
-#        files: ^examples/
-#      - id: goimports
-#      - id: gofmt
-#      - id: golint
-#      - id: tflint
-#        files: ^examples/.*\.tf
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.23
+    hooks:
+      - id: terraform-validate
+        files: ^examples/
+      - id: goimports
+      - id: gofmt
+      - id: golint
+      - id: tflint
+        files: ^examples/.*\.tf
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v2.4.0
     hooks:
